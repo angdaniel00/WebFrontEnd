@@ -1,9 +1,11 @@
 import {GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT, UPDATE_STUDENT} from '../actions/types';
 
 const initialState = {
-    students: []
+    students: [],
+    selected: -1
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function(state= initialState, action) {
     switch (action.type){
         case GET_STUDENTS:

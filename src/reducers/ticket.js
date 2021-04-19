@@ -2,9 +2,10 @@ import {ADD_TICKET, GET_TICKET, GET_TICKETS, UPDATE_TICKET, DELETE_TICKET} from 
 
 const initialState = {
     tickets:[],
-    ticketSelect: null
+    ticketSelect: -1
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function(state= initialState, action) {
     switch (action.type){
         case GET_TICKETS:

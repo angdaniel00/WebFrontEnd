@@ -1,9 +1,11 @@
 import {GET_CAREERS, ADD_CAREER, UPDATE_CAREER, DELETE_CAREER} from '../actions/types';
 
 const initialState = {
-    careers:[]
+    careers:[],
+    selectCareer: -1
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function(state= initialState, action) {
     switch (action.type){
         case GET_CAREERS:

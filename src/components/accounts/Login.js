@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {login} from '../../actions/auth';
@@ -36,7 +35,7 @@ export class Login extends Component {
 
         return (
             <div className="col-md-6 m-auto">
-                <Panel header="Header"></Panel>
+                <Panel header=""></Panel>
                 <div className="card card-body mt-5">
                     <h2 className="text-center">Login</h2>
                     <form onSubmit={this.onSubmit}>
@@ -63,12 +62,6 @@ export class Login extends Component {
                         <div className="form-group">
                             <button type="submit" className="btn btn-primary">Login</button>
                         </div>
-                        <p>
-                            Don't have an account?
-                            <Link to="/register">
-                                Register
-                            </Link>
-                        </p>
                     </form>
                 </div>
             </div>
