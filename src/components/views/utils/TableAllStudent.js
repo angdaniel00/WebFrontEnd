@@ -6,6 +6,7 @@ import {Toolbar} from 'primereact/toolbar';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {DialogCreate} from './DialogCreate';
+import {DialogUpdate} from './DialogUpdate';
 import './css/tableallstudent.css';
 
 export class TableAllStudents extends Component {
@@ -13,21 +14,48 @@ export class TableAllStudents extends Component {
     state = {
         admin: this.props.admin,
         visible: false,
-        selection: null
+        selection: {
+            id: null,
+            course: null,
+            name: '',
+            scholl: '',
+            acpre: null,
+            math: -1,
+            spanish: -1,
+            history: -1,
+            noteFinal: -1
+        },
+        visibleUpdate: false
     }
 
     createStudent=(event)=>{
         this.setState({visible:true})
     }
 
+    updateStudent=(event)=>{
+        if (this.state.selection)
+            this.setState({visibleUpdate: true})
+        console.log(this.state)
+    }
+
     hide=(event)=>{
-        this.setState({visible:false})
+        this.setState({visible: false})
+    }
+
+    hideU=(event)=>{
+        this.setState({visibleUpdate: false})
     }
 
     addStudentD = (student)=>{
         this.props.events.addStudent(student)
         this.props.events.getStudentsAllCourse(this.props.events.courseSelect)
         this.hide()
+    }
+
+    updateStudentD = (student)=>{
+        this.props.events.updateStudent(student)
+        this.props.events.getStudentsAllCourse(this.props.events.courseSelect)
+        this.hideU()
     }
 
     onSelection = (event) =>{
@@ -39,19 +67,20 @@ export class TableAllStudents extends Component {
         const left=(
             <Fragment>
                 <Button label='Nuevo' icon='pi pi-plus' className='p-mr-2' onClick={this.createStudent}/>
-                <Button label='Actualizar' icon='pi pi-check' className='p-button-success p-mr-2'/>
+                <Button label='Actualizar' icon='pi pi-check' className='p-button-success p-mr-2' onClick={this.updateStudent}/>
                 <Button label='Borrar' icon='pi pi-times' className='p-button-danger p-mr-2'/>
             </Fragment>
         );
          const right=(
              <Fragment>
-                 <Button label='Actualizar' icon='pi pi-calendar' onClick={e=>{this.props.events.getStudentsAllCourse(this.props.events.courseSelect)}}/>
+                 <Button label='Actualizar' icon='pi pi-repeats' onClick={e=>{this.props.events.getStudentsAllCourse(this.props.events.courseSelect)}}/>
              </Fragment>
          );
 
         return (
             <Fragment>
                     {this.props.admin?<DialogCreate addStudentD={this.addStudentD} hide={this.hide} visible={this.state.visible} courses={this.props.events.courses}/>:null}
+                    {this.props.admin?<DialogUpdate updateStudentD={this.updateStudentD} hide={this.hideU} visible={this.state.visibleUpdate} student={this.state.selection}/>:null}
                     {this.props.admin?<Toolbar className='mt' left={left} right={right}/>:null}
                     <DataTable header="Estudiantes" value={this.props.students} selection={this.state.selection} onSelectionChange={this.onSelection} selectionMode='single' dataKey='id' className='p-datatable-gridlines mt'>
                         <Column field="name" header="Nombre"></Column>

@@ -55,53 +55,21 @@ export class App extends Component {
                 <Alerts/>
                   <Switch>
                     <PrivateRoute exact path="/" component={Index} type='public'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/login" component={Login} type='public'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/allcareer" component={AllCareerView} type='public'/>
-                  </Switch>   
-                  <Switch>
                     <PrivateRoute exact path="/dispcareer" component={DispCareerView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/detailscareer" component={CareerDetailsView} type='public'/>
-                  </Switch>    
-                  <Switch>
                     <PrivateRoute exact path="/allstudents" component={AllStudentsView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/aprstudents" component={AprStudentView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/desstudents" component={DesStudentView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/escalafon" component={EscStudentView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/coursestudents" component={CourseStudentView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/otorstudents" component={OtorStudentView} type='public'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/tickets" component={TicketsView} type='public'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/private/career" component={PCareerView} type='private'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/private/course" component={PCourseView} type='private'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/private/Student" component={PStudentView} type='private'/>
-                  </Switch>
-                  <Switch>
                     <PrivateRoute exact path="/private/tickets" component={PTicketsView} type='private'/>
-                  </Switch> 
-                  <Switch>
                     <PrivateRoute exact path="/studentdetails" component={StudentDetailsView} type='public'/>
                   </Switch>
               </Fragment>
