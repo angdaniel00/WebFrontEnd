@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {GET_CAREERS, ADD_CAREER, UPDATE_CAREER, DELETE_CAREER} from '../actions/types';
 import { createMessage, returnErrors} from './messages';
+import {tokenConfig} from './auth';
 
 //GET CAREER DISP
 export const getCareerDisp = (id) => dispatch => {
@@ -59,8 +60,8 @@ export const getCareersCourse = (id) => dispatch => {
 }
 
 // DELETE Career
-export const deleteCareer = (id) => dispatch => {
-    axios.delete('/private/career/'+id)
+export const deleteCareer = (id) => (dispatch, getState) => {
+    axios.delete('/private/career/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({deleteCareer: 'Career deleted'}))
             dispatch({
@@ -71,8 +72,8 @@ export const deleteCareer = (id) => dispatch => {
 }
 
 //ADD Career
-export const addCareer = (career) => dispatch => {
-    axios.post('/private/career', career)
+export const addCareer = (career) => (dispatch, getState) => {
+    axios.post('/private/career', career, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({addCareer: 'Career added'}))
             dispatch({
@@ -83,8 +84,8 @@ export const addCareer = (career) => dispatch => {
 }
 
 //UPDATE Career
-export const updateCareer = (career) => dispatch => {
-    axios.put('/private/career', career)
+export const updateCareer = (career) => (dispatch, getState) => {
+    axios.put('/private/career', career, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({updateCareer: 'Career updated'}))
             dispatch({

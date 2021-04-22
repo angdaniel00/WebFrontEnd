@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT, UPDATE_STUDENT} from './types';
 import { createMessage, returnErrors} from './messages';
+import {tokenConfig} from './auth';
 
 //GET Students of a Course
 export const getStudentsAllCourse = (id) => dispatch => {
@@ -58,6 +59,28 @@ export const getEscalafon = (id) => dispatch => {
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
+//Aprobados
+export const getAprobados = (id) => dispatch => {
+    axios.get('public/student/aprobados/'+id)
+        .then(res=>{
+            dispatch({
+                type: GET_STUDENTS,
+                payload: res.data
+            })
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
+//Desaprobados
+export const getDesaprobados = (id) => dispatch => {
+    axios.get('public/student/desaprobados/'+id)
+        .then(res=>{
+            dispatch({
+                type: GET_STUDENTS,
+                payload: res.data
+            })
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
 //Estudiantes sin carreras
 export const getASC = (id) => dispatch => {
     axios.get('/public/student/asc/'+id)
@@ -70,8 +93,8 @@ export const getASC = (id) => dispatch => {
 }
 
 // DELETE Student
-export const deleteStudent = (id) => dispatch => {
-    axios.delete('/private/student/'+id)
+export const deleteStudent = (id) => (dispatch, getState) => {
+    axios.delete('/private/student/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({deleteStudent: 'Student deleted'}))
             dispatch({
@@ -82,8 +105,8 @@ export const deleteStudent = (id) => dispatch => {
 }
 
 //ADD Student
-export const addStudent = (student) => dispatch => {
-    axios.post('/private/student', student)
+export const addStudent = (student) => (dispatch, getState) => {
+    axios.post('/private/student', student, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({addStudent: 'Student added'}))
             dispatch({
@@ -94,8 +117,8 @@ export const addStudent = (student) => dispatch => {
 }
 
 //UPDATE Student
-export const updateStudent = (student) => dispatch => {
-    axios.put('/private/student', student)
+export const updateStudent = (student) => (dispatch, getState) => {
+    axios.put('/private/student', student, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({updateStudent: 'Student updated'}))
             dispatch({
@@ -106,8 +129,8 @@ export const updateStudent = (student) => dispatch => {
 }
 
 //Asign Career Student
-export const asignCareer = (id) => dispatch => {
-    axios.post('/private/student/asig/'+id)
+export const asignCareer = (id) => (dispatch, getState) => {
+    axios.post('/private/student/asig/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({asigCareerStudent: 'Asign career student'}))
             dispatch({
@@ -118,8 +141,8 @@ export const asignCareer = (id) => dispatch => {
 }
 
 //Calcule note final of Student
-export const calNoteFinal = (id) => dispatch => {
-    axios.post('/private/student/calc/'+id)
+export const calNoteFinal = (id) => (dispatch, getState) => {
+    axios.post('/private/student/calc/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({calNoteFinal: 'Calcule note final Student'}))
             dispatch({

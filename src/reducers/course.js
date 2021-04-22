@@ -1,8 +1,8 @@
-import {ADD_COURSE, GET_COURSE, GET_COURSES, UPDATE_COURSE, DELETE_COURSE} from '../actions/types';
+import {GET_ACTUAL, ADD_COURSE, GET_COURSE, GET_COURSES, UPDATE_COURSE, DELETE_COURSE} from '../actions/types';
 
 const initialState = {
     courses:[],
-    courseSelect: null
+    courseSelect: -1
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -13,6 +13,11 @@ export default function(state= initialState, action) {
                 ...state,
                 courses: action.payload
             };
+        case GET_ACTUAL:
+            return {
+                 ...state,
+                 courseSelect: action.payload 
+            } 
         case DELETE_COURSE:
             return { 
                 ...state, 

@@ -17,6 +17,7 @@ export const LOGOUT = "LOGOUT";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 
+export const GET_ACTUAL = "GET_ACTUAL";
 export const ADD_COURSE = "ADD_COURSE";
 export const UPDATE_COURSE = "UPDATE_COURSE";
 export const GET_COURSE = "GET_COURSE";

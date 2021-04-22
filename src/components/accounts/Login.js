@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import {login} from '../../actions/auth';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import {Panel} from 'primereact/panel';
+import {InputText} from 'primereact/inputtext';
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import './login.css'
 
 export class Login extends Component {
 
@@ -19,6 +23,7 @@ export class Login extends Component {
 
     onSubmit = e => {
         e.preventDefault();
+        e.stopPropagation();
         this.props.login(this.state.username, this.state.password);
     }
 
@@ -27,43 +32,20 @@ export class Login extends Component {
     )
 
     render() {
+
         if(this.props.isAuthenticated){
             return <Redirect to="/"/>
         }
 
-        const {username, password} = this.state;
-
         return (
-            <div className="col-md-6 m-auto">
-                <Panel header=""></Panel>
-                <div className="card card-body mt-5">
-                    <h2 className="text-center">Login</h2>
-                    <form onSubmit={this.onSubmit}>
-                        <div className="form-group">
-                            <label>Username</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                onChange={this.onChange}
-                                value={username}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                name="password"
-                                onChange={this.onChange}
-                                value={password}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary">Login</button>
-                        </div>
-                    </form>
-                </div>
+            <div>
+                <Panel header="Login" className='panel-custom'>
+                    <label className='element-custom-l w-20'>Usuario</label>
+                    <InputText  className='element-custom-l w-20' name='username' onChange={this.onChange}/>
+                    <label className='element-custom-l w-20'>Contrase&ntilde;a</label>
+                    <Password className='element-custom-l w-20' name='password' onChange={this.onChange}/>
+                    <Button className='element-custom-l btn' onClick={this.onSubmit} label="Login"/>
+                </Panel>   
             </div>
         )
     }

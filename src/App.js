@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {HashRouter as Router, useHistory} from 'react-router-dom';
 import Header from './components/layout/Header';
-import Dashboard from './components/leads/Dashboard';
 import {Provider} from 'react-redux';
 import store from './store';
 import {Provider as AlertProvider} from 'react-alert';
@@ -10,25 +9,27 @@ import Alerts from './components/layout/Alerts';
 import {Switch} from 'react-router-dom/cjs/react-router-dom.min';
 import Login from './components/accounts/Login';
 import PrivateRoute from './components/commom/PrivateRoute';
-import {loadUser} from './actions/auth';
+import {getActual, getCourses} from './actions/course';
 
-import {AllCareer} from './components/public/Career/AllCareer';
-import {DispCareer} from './components/public/Career/DispCareer';
-import {CareerDetails} from './components/views/CareerDetails';
-import {AllStudent} from './components/public/Student/AllStudent';
-import {AprStudent} from './components/public/Student/AprStudent';
-import {DesStudent} from './components/public/Student/DesStudent';
-import {EscStudents} from './components/public/Student/EscStudent';
-import {CourseStudent} from './components/public/Student/CourseStudent';
-import {OtorStudent} from './components/public/Student/OtorStudent';
-import {Tickets} from './components/public/Tickets/Tickets';
+import {Index} from './components/public/index';
 
-import {PCareer} from './components/private/Career';
-import {PCourse} from './components/private/Course';
-import {PStudent} from './components/private/Student';
-import {PTickets} from './components/private/Tickets';
+import AllCareerView from './components/public/Career/view/AllCareerView';
+import DispCareerView from './components/public/Career/view/DispCareerView';
+import CareerDetailsView from './components/views/view/CareerDetailsView';
+import AllStudentsView from './components/public/Student/view/AllStudentView';
+import AprStudentView from './components/public/Student/view/AprStudentView';
+import DesStudentView from './components/public/Student/view/DesStudentView';
+import EscStudentView from './components/public/Student/view/EscStudentView';
+import CourseStudentView from './components/public/Student/view/CourseStudentView';
+import OtorStudentView from './components/public/Student/view/OtorStudentView';
+import TicketsView from './components/public/Tickets/view/TicketsView';
 
-import {StudentDetails} from './components/views/StudentDetails';
+import PCareerView from './components/private/view/CareerView';
+import PCourseView from './components/private/view/CourseView';
+import PStudentView from './components/private/view/StudentView';
+import PTicketsView from './components/private/view/TicketsView';
+
+import StudentDetailsView from './components/views/view/StudentDetailsView';
 
 
 const AlertOptions={
@@ -39,7 +40,8 @@ const AlertOptions={
 export class App extends Component {
 
   componentDidMount(){
-    store.dispatch(loadUser());
+    store.dispatch(getCourses());
+    store.dispatch(getActual());
   }
 
   render() {
@@ -52,55 +54,55 @@ export class App extends Component {
                 <Header/>
                 <Alerts/>
                   <Switch>
-                    <PrivateRoute exact path="/" component={Dashboard} type='public'/>
+                    <PrivateRoute exact path="/" component={Index} type='public'/>
                   </Switch>
                   <Switch>
                     <PrivateRoute exact path="/login" component={Login} type='public'/>
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path="/allcareer" component={AllCareer} type='public'/>
+                    <PrivateRoute exact path="/allcareer" component={AllCareerView} type='public'/>
                   </Switch>   
                   <Switch>
-                    <PrivateRoute exact path="/dispcareer" component={DispCareer} type='public'/>
+                    <PrivateRoute exact path="/dispcareer" component={DispCareerView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/detailscareer" component={CareerDetails} type='public'/>
+                    <PrivateRoute exact path="/detailscareer" component={CareerDetailsView} type='public'/>
                   </Switch>    
                   <Switch>
-                    <PrivateRoute exact path="/allstudents" component={AllStudent} type='public'/>
+                    <PrivateRoute exact path="/allstudents" component={AllStudentsView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/aprstudents" component={AprStudent} type='public'/>
+                    <PrivateRoute exact path="/aprstudents" component={AprStudentView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/despstudents" component={DesStudent} type='public'/>
+                    <PrivateRoute exact path="/desstudents" component={DesStudentView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/escalafon" component={EscStudents} type='public'/>
+                    <PrivateRoute exact path="/escalafon" component={EscStudentView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/coursestudents" component={CourseStudent} type='public'/>
+                    <PrivateRoute exact path="/coursestudents" component={CourseStudentView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/otorstudents" component={OtorStudent} type='public'/>
+                    <PrivateRoute exact path="/otorstudents" component={OtorStudentView} type='public'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/tickets" component={Tickets} type='public'/>
+                    <PrivateRoute exact path="/tickets" component={TicketsView} type='public'/>
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path="/private/career" component={PCareer} type='private'/>
+                    <PrivateRoute exact path="/private/career" component={PCareerView} type='private'/>
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path="/private/course" component={PCourse} type='private'/>
+                    <PrivateRoute exact path="/private/course" component={PCourseView} type='private'/>
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path="/private/Student" component={PStudent} type='private'/>
+                    <PrivateRoute exact path="/private/Student" component={PStudentView} type='private'/>
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path="/private/tickets" component={PTickets} type='private'/>
+                    <PrivateRoute exact path="/private/tickets" component={PTicketsView} type='private'/>
                   </Switch> 
                   <Switch>
-                    <PrivateRoute exact path="/studentdetails" component={StudentDetails} type='public'/>
+                    <PrivateRoute exact path="/studentdetails" component={StudentDetailsView} type='public'/>
                   </Switch>
               </Fragment>
             </Router>

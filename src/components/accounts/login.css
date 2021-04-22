@@ -1,0 +1,19 @@
+.panel-custom{
+    width: min-content;
+    margin-inline: auto;
+    margin-top: 6rem;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
+
+.element-custom-l{
+    display: block;
+    margin-bottom: .5rem !important;
+}
+
+.w-20{
+    width: 20rem;
+}
+
+.btn{
+    margin-left: 8rem !important;
+}

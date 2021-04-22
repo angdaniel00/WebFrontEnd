@@ -15,7 +15,7 @@ export class Header extends React.Component {
    }
 
    redirectPage=(path)=>{
-       this.props.history.replace(path)
+       window.location.hash = path;
    }
 
     render() {

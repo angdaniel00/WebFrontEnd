@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {ADD_TICKET, GET_TICKET, GET_TICKETS, UPDATE_TICKET, DELETE_TICKET} from '../actions/types';
 import { createMessage, returnErrors} from './messages';
+import {tokenConfig} from './auth';
 
 //GET Ticket of Student
 export const getTicketStudent = (id) => dispatch => {
@@ -36,8 +37,8 @@ export const getTicketsCourse = (course) => dispatch => {
 }
 
 // DELETE Ticket
-export const deleteTicket = (id) => dispatch => {
-    axios.delete('/private/boleta/'+id)
+export const deleteTicket = (id) => (dispatch, getState) => {
+    axios.delete('/private/boleta/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({deleteTicket: 'Ticket deleted'}))
             dispatch({
@@ -48,8 +49,8 @@ export const deleteTicket = (id) => dispatch => {
 }
 
 //ADD Ticket
-export const addTicket = (ticket) => dispatch => {
-    axios.post('/private/boleta', ticket)
+export const addTicket = (ticket) => (dispatch, getState) => {
+    axios.post('/private/boleta', ticket, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({addTicket: 'Ticket added'}))
             dispatch({
@@ -60,8 +61,8 @@ export const addTicket = (ticket) => dispatch => {
 }
 
 //UPDATE Ticket
-export const updateTicket = (ticket) => dispatch => {
-    axios.put('/private/boleta', ticket)
+export const updateTicket = (ticket) => (dispatch, getState) => {
+    axios.put('/private/boleta', ticket, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({updateTicket: 'Ticket updated'}))
             dispatch({

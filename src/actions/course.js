@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {ADD_COURSE, GET_COURSE, GET_COURSES, UPDATE_COURSE, DELETE_COURSE} from '../actions/types';
+import {GET_ACTUAL, ADD_COURSE, GET_COURSE, GET_COURSES, UPDATE_COURSE, DELETE_COURSE} from '../actions/types';
 import { createMessage, returnErrors} from './messages';
+import {tokenConfig} from './auth';
 
 //GET COURSE
 export const getCourse = (id) => dispatch => {
@@ -35,9 +36,20 @@ export const getCourses = () => dispatch => {
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
+//GET ACTUAL
+export const getActual = () => dispatch => {
+    axios.get('/public/course/actual')
+        .then(res=>{
+            dispatch({
+                type: GET_ACTUAL,
+                payload: res.data
+            })
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
 // DELETE COURSE
-export const deleteCourse = (id) => dispatch => {
-    axios.delete('/private/course/'+id)
+export const deleteCourse = (id) => (dispatch, getState) => {
+    axios.delete('/private/course/'+id, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({deleteCourse: 'Course deleted'}))
             dispatch({
@@ -48,8 +60,8 @@ export const deleteCourse = (id) => dispatch => {
 }
 
 //ADD COURSE
-export const addCourse = (course) => dispatch => {
-    axios.post('/private/course/' + course, null)
+export const addCourse = (course) => (dispatch, getState) => {
+    axios.post('/private/course/' + course, null, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({addCourse: 'Course added'}))
             dispatch({
@@ -60,8 +72,8 @@ export const addCourse = (course) => dispatch => {
 }
 
 //UPDATE Ticket
-export const updateCourse = (course) => dispatch => {
-    axios.put('/private/course', course)
+export const updateCourse = (course) => (dispatch, getState) => {
+    axios.put('/private/course', course, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({updateCourse: 'Course updated'}))
             dispatch({

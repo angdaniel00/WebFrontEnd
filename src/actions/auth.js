@@ -1,23 +1,6 @@
 import axios from 'axios';
 import { returnErrors} from './messages';
-import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from './types';
-
-// CHECK TOKEN & LOAD USER
-export const loadUser = () =>(dispatch, getState) =>{
-
-    axios.get('/user', tokenConfig(getState))
-        .then(res => {
-            dispatch({
-                type: USER_LOADED,
-                payload: res.data
-            });
-        }).catch(err => {
-            dispatch(returnErrors(err.response.data, err.response.status));
-            dispatch({
-                type: AUTH_ERROR
-            })
-        })
-}
+import { USER_LOADING, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from './types';
 
 // Login user
 export const login = (username, password) =>dispatch =>{
@@ -27,7 +10,8 @@ export const login = (username, password) =>dispatch =>{
     //Headers
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': "application/json",
+            'Accept':"*/*",
         }
     }
 
@@ -38,9 +22,10 @@ export const login = (username, password) =>dispatch =>{
         .then(res => {
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: res.data
+                payload: res.headers.authorization
             });
         }).catch(err => {
+            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({
                 type: LOGIN_FAIL
@@ -69,13 +54,10 @@ export const tokenConfig = getState => {
     //Headers
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': "application/json",
+            'Accept':"*/*",
+            'Authorization': token
         }
-    }
-
-    //If token, add to headers config
-    if(token){
-        config.headers['Authorization'] = token;
     }
 
     return config;
