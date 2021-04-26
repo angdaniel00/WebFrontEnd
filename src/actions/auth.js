@@ -34,9 +34,9 @@ export const login = (username, password) =>dispatch =>{
 }
 
 //Logout user
-export const logout = () =>(dispatch, getState) =>{
-
-    axios.post('/logout', null, tokenConfig(getState))
+/*export const logout = () =>(dispatch, getState) =>{
+    const json=JSON.stringify({})
+    axios.post('/logout', json, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: LOGOUT
@@ -44,6 +44,11 @@ export const logout = () =>(dispatch, getState) =>{
         }).catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status));
         })
+}*/
+export const logout = () =>(dispatch, getState)=>{
+    dispatch({
+        type:LOGOUT
+    })
 }
 
 //Setup config with token -helper function

@@ -2,6 +2,7 @@ export const GET_STUDENTS = "GET_STUDENTS";
 export const DELETE_STUDENT = "DELETE_STUDENT";
 export const ADD_STUDENT = "ADD_STUDENT";
 export const UPDATE_STUDENT = "UPDATE_STUDENT";
+export const CHANGE_STUDENT = "CHANGE_STUDENT";
 
 export const GET_ERRORS = "GET_ERRORS";
 export const GET_MESSAGES = "GET_MESSAGES";

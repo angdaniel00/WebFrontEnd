@@ -1,7 +1,25 @@
 import axios from 'axios';
-import {GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT, UPDATE_STUDENT} from './types';
+import {GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT, UPDATE_STUDENT, CHANGE_STUDENT} from './types';
 import { createMessage, returnErrors} from './messages';
 import {tokenConfig} from './auth';
+
+const fixedStudent = (student)=>{
+    student.math=student.math?student.math:-1;
+    student.spanish=student.spanish?student.spanish:-1;
+    student.history=student.history?student.history:-1;
+    student.noteFinal=student.noteFinal?student.noteFinal:-1;
+    return student;
+}
+
+export const getStudent = (student) => dispatch => {
+    axios.get('/public/student/search/'+student.id)
+        .then(res=>{
+            dispatch({
+                type: CHANGE_STUDENT,
+                payload: res.data
+            })
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
 
 //GET Students of a Course
 export const getStudentsAllCourse = (id) => dispatch => {
@@ -118,6 +136,7 @@ export const addStudent = (student) => (dispatch, getState) => {
 
 //UPDATE Student
 export const updateStudent = (student) => (dispatch, getState) => {
+    student = fixedStudent(student);
     axios.put('/private/student', student, tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({updateStudent: 'Student updated'}))

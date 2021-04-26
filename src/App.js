@@ -20,8 +20,6 @@ import AllStudentsView from './components/public/Student/view/AllStudentView';
 import AprStudentView from './components/public/Student/view/AprStudentView';
 import DesStudentView from './components/public/Student/view/DesStudentView';
 import EscStudentView from './components/public/Student/view/EscStudentView';
-import CourseStudentView from './components/public/Student/view/CourseStudentView';
-import OtorStudentView from './components/public/Student/view/OtorStudentView';
 import TicketsView from './components/public/Tickets/view/TicketsView';
 
 import PCareerView from './components/private/view/CareerView';
@@ -63,14 +61,12 @@ export class App extends Component {
                     <PrivateRoute exact path="/aprstudents" component={AprStudentView} type='public'/>
                     <PrivateRoute exact path="/desstudents" component={DesStudentView} type='public'/>
                     <PrivateRoute exact path="/escalafon" component={EscStudentView} type='public'/>
-                    <PrivateRoute exact path="/coursestudents" component={CourseStudentView} type='public'/>
-                    <PrivateRoute exact path="/otorstudents" component={OtorStudentView} type='public'/>
                     <PrivateRoute exact path="/tickets" component={TicketsView} type='public'/>
                     <PrivateRoute exact path="/private/career" component={PCareerView} type='private'/>
                     <PrivateRoute exact path="/private/course" component={PCourseView} type='private'/>
                     <PrivateRoute exact path="/private/Student" component={PStudentView} type='private'/>
                     <PrivateRoute exact path="/private/tickets" component={PTicketsView} type='private'/>
-                    <PrivateRoute exact path="/studentdetails" component={StudentDetailsView} type='public'/>
+                    <PrivateRoute exact path="/studentdetails/:student" component={StudentDetailsView} type='public'/>
                   </Switch>
               </Fragment>
             </Router>

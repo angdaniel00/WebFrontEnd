@@ -1,20 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {addStudent, updateStudent, deleteStudent, getStudents, getStudentsAllCourse} from '../../../actions/students';
-import {TableAllStudents} from '../../views/utils/TableAllStudent'
+import {addStudent, updateStudent, deleteStudent, getStudentsAllCourse, getStudent} from '../../../actions/students';
+import {TableAllStudents} from '../../views/utils/TableAllStudent';
+import {ALL_STUDENTS} from '../../util/constants';
 
 export class AllStudents extends Component {
 
     static propTypes={
         courseSelect: PropTypes.number.isRequired,
+        courses: PropTypes.array.isRequired,
         students: PropTypes.array.isRequired,
-        selected: PropTypes.number.isRequired,
+        selected: PropTypes.object.isRequired,
         addStudent: PropTypes.func.isRequired,
         updateStudent: PropTypes.func.isRequired,
         deleteStudent: PropTypes.func.isRequired,
-        getStudents: PropTypes.func.isRequired,
-        getStudentsAllCourse: PropTypes.func.isRequired
+        getStudent: PropTypes.func.isRequired,
+        getStudentsAllCourse: PropTypes.func.isRequired,
     }
 
     componentWillMount(){
@@ -24,7 +26,7 @@ export class AllStudents extends Component {
     render() {
         return (
             <Fragment>
-                <TableAllStudents events={this.props} students={this.props.students} admin={false}/>
+                <TableAllStudents type={ALL_STUDENTS} events={this.props} students={this.props.students} admin={false}/>
             </Fragment>
         );
     }
@@ -32,8 +34,9 @@ export class AllStudents extends Component {
 
 const mapStateToProps = state => ({
     courseSelect: state.course.courseSelect,
+    courses: state.course.courses,
     students: state.students.students,
     selected: state.students.selected
 });
 
-export default connect(mapStateToProps,{addStudent, updateStudent,deleteStudent, getStudents, getStudentsAllCourse})(AllStudents);
+export default connect(mapStateToProps,{addStudent, updateStudent,deleteStudent, getStudentsAllCourse, getStudent})(AllStudents);

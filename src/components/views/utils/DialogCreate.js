@@ -4,6 +4,7 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import './css/dialogcreate.css';
+import {initialSelection} from './TableAllStudent';
 
 export class DialogCreate extends Component {
 
@@ -20,15 +21,17 @@ export class DialogCreate extends Component {
     }
 
     addStudentD = (event)=>{
-        if(this.validStudent())
+        if(this.validStudent()){
             this.props.addStudentD(this.state)
+            this.setState(initialSelection)
+        }
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value })
 
     validStudent = () =>{
         const{name, course, school, acpre}=this.state
-        return (name.length>0 && school.length>0 && course!==null && acpre!==null && acpre!=='' && acpre>=0 && acpre<=100);
+        return (name && name.length>0 && school && school.length>0 && course && acpre && acpre!=='' && acpre>=0 && acpre<=100);
     }
 
     render() {

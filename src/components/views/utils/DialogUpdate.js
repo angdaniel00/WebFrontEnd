@@ -3,37 +3,30 @@ import {Dialog} from 'primereact/dialog';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import './css/dialogcreate.css';
-//import {Dropdown} from 'primereact/dropdown';
 
 export class DialogUpdate extends Component {
 
-    componentWillMount(){
-        console.log(this.props)
-    }
-
     updateStudentD = (event)=>{
         if(this.validStudent())
-            this.props.updateStudent(this.props.student)
+            this.props.updateStudentD(this.props.student)
     }
 
-    onChange = e => this.setState({ [e.target.name]: e.target.value })
+    onChange = e => {
+        this.props.student[e.target.name]= e.target.value;
+    }
 
     validStudent = () =>{
         const{name, school, acpre, math, spanish, history}=this.props.student
-        return (name.length>0 && school.length>0 && acpre!==null && acpre!=='' && acpre>=0 && acpre<=100
-        && math!=='' && math>=0 && math<=100 && spanish!=='' && spanish>=0 && spanish<=100 && history!=='' && history>=0 && history<=100);
+        return (name && name.length>0 && school &&school.length>0 && acpre && acpre!=='' && acpre>=0 && acpre<=100
+        && (math || math==='' || math>=0 || math<=100) && (spanish || spanish==='' || spanish>=0 || spanish<=100) 
+        && (history || history==='' || history>=0 || history<=100));
     }
 
     render() {
 
-        /*
-        <label className='element-custom'>Curso</label>
-                    <Dropdown optionLabel='cyear' optionValue="id" value={this.state.course} onChange={this.onChange} name='course' options={this.props.courses} placeholder='Curso'/>
-        */ 
-
         return (
             <Fragment>
-                <Dialog visible={this.props.visible} onHide={this.props.hide} header='Actualizar estudiante'>
+                <Dialog visible={this.props.visible} onHide={this.props.hiden} header='Actualizar estudiante'>
                     <label className='element-custom'>Nombre</label>
                     <InputText onChange={this.onChange} className='element-custom' defaultValue={this.props.student.name} name='name' placeholder='Nombre'/>
                     <label className='element-custom'>Escuela</label>

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getStudents, getStudentsAllCourse,addStudent, updateStudent, deleteStudent} from '../../actions/students';
 import {TableAllStudents} from '../views/utils/TableAllStudent';
+import {ALL_STUDENTS} from '../util/constants'
 
 export class PStudent extends Component {
 
@@ -25,7 +26,7 @@ export class PStudent extends Component {
     render() {
         return (
             <Fragment>
-                <TableAllStudents events={this.props} students={this.props.students} admin={true}/>
+                <TableAllStudents type={ALL_STUDENTS} events={this.props} students={this.props.students} admin={true}/>
             </Fragment>
         );
     }

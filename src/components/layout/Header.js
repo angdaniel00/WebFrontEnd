@@ -32,15 +32,10 @@ export class Header extends React.Component {
                label: 'Estudiantes',
                icon: 'pi pi-fw pi-user',
                items:[
-                   {
+                    {
                        label: 'Todos',
                        icon:'pi pi-fw pi-users',
                        command: (event)=>{this.redirectPage('/allstudents')}
-                   },
-                   {
-                        label: 'Curso',
-                        icon:'pi pi-fw pi-calendar',
-                        command: (event)=>{this.redirectPage('/coursestudents')}
                     },
                     {
                         label: 'Aprobados',
@@ -51,11 +46,6 @@ export class Header extends React.Component {
                         label: 'Desaprobados',
                         icon:'pi pi-fw pi-ban',
                         command: (event)=>{this.redirectPage('/desstudents')}
-                    },
-                    {
-                        label: 'Otorgamiento',
-                        icon:'pi pi-fw pi-book',
-                        command: (event)=>{this.redirectPage('/otorstudents')}
                     },
                     {
                         label: 'Escalafón',

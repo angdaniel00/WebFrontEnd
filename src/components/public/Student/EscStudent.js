@@ -2,13 +2,16 @@ import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getEscalafon} from '../../../actions/students';
+import {TableAllStudents} from '../../views/utils/TableAllStudent';
+import {ESCALAFON} from '../../util/constants';
 
 export class EscStudents extends Component {
 
     static propTypes={
         courseSelect: PropTypes.number.isRequired,
+        courses: PropTypes.array.isRequired,
         students: PropTypes.array.isRequired,
-        selected: PropTypes.number.isRequired,
+        selected: PropTypes.object.isRequired,
         getEscalafon: PropTypes.func.isRequired
     }
 
@@ -18,13 +21,16 @@ export class EscStudents extends Component {
 
     render() {
         return (
-            <Fragment></Fragment>
+            <Fragment>
+                <TableAllStudents type={ESCALAFON} events={this.props} students={this.props.students} admin={false}/>
+            </Fragment>
         );
     }
 }
 
 const mapStateToProps = state => ({
     courseSelect: state.course.courseSelect,
+    courses: state.course.courses,
     students: state.students.students,
     selected: state.students.selected
 });

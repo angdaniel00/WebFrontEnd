@@ -15,3 +15,14 @@ body{
 .input-search{
     border-radius: 18px 0px 0px 18px !important;
 }
+
+.inline{
+    display: inline !important;
+}
+
+.center{
+    margin-top:14rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: max-content;
+}
