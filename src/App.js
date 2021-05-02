@@ -15,7 +15,6 @@ import {Index} from './components/public/index';
 
 import AllCareerView from './components/public/Career/view/AllCareerView';
 import DispCareerView from './components/public/Career/view/DispCareerView';
-import CareerDetailsView from './components/views/view/CareerDetailsView';
 import AllStudentsView from './components/public/Student/view/AllStudentView';
 import AprStudentView from './components/public/Student/view/AprStudentView';
 import DesStudentView from './components/public/Student/view/DesStudentView';
@@ -26,8 +25,6 @@ import PCareerView from './components/private/view/CareerView';
 import PCourseView from './components/private/view/CourseView';
 import PStudentView from './components/private/view/StudentView';
 import PTicketsView from './components/private/view/TicketsView';
-
-import StudentDetailsView from './components/views/view/StudentDetailsView';
 
 
 const AlertOptions={
@@ -56,7 +53,6 @@ export class App extends Component {
                     <PrivateRoute exact path="/login" component={Login} type='public'/>
                     <PrivateRoute exact path="/allcareer" component={AllCareerView} type='public'/>
                     <PrivateRoute exact path="/dispcareer" component={DispCareerView} type='public'/>
-                    <PrivateRoute exact path="/detailscareer" component={CareerDetailsView} type='public'/>
                     <PrivateRoute exact path="/allstudents" component={AllStudentsView} type='public'/>
                     <PrivateRoute exact path="/aprstudents" component={AprStudentView} type='public'/>
                     <PrivateRoute exact path="/desstudents" component={DesStudentView} type='public'/>
@@ -66,7 +62,6 @@ export class App extends Component {
                     <PrivateRoute exact path="/private/course" component={PCourseView} type='private'/>
                     <PrivateRoute exact path="/private/Student" component={PStudentView} type='private'/>
                     <PrivateRoute exact path="/private/tickets" component={PTicketsView} type='private'/>
-                    <PrivateRoute exact path="/studentdetails/:student" component={StudentDetailsView} type='public'/>
                   </Switch>
               </Fragment>
             </Router>

@@ -1,35 +1,30 @@
-import React, { Component, Fragment } from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {getCareersCourse} from '../../actions/career';
+import React, { Fragment } from 'react';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {Dialog} from 'primereact/dialog';
 
-export class CareerDetails extends Component {
-    
-    state = { career:null }
+export const CareerDetails = ({visible, hide, career}) => {
 
-    static propTypes={
-        selectCareer: PropTypes.number.isRequired,
-        careers: PropTypes.array.isRequired,
-        courseSelect: PropTypes.number.isRequired,
-        getCareersCourse: PropTypes.func.isRequired
+    const convertCareer = () => {
+        if(!career)
+            return []
+        return[
+            {name:'Universidad', value:career.university},
+            {name:'Cantidad', value:career.cant},
+            {name:'Disponibles', value:career.disp},
+            {name:'Descripción', value:career.description},
+            {name:'Corte final', value:career.corte===-1?null:career.corte}
+        ]
     }
 
-    componentDidMount(){
-        this.props.getCareersCourse(this.props.courseSelect);
-        this.setState({career:this.props.careers[this.props.selectCareer]});
-    }
-
-    render() {
-        return (
-            <Fragment></Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <Dialog id="dialog" visible={visible} onHide={hide} header='Informaci&oacute;n de la carrera' style={{width: '37rem !important'}}>
+                <DataTable header={career?career.name:''} value={convertCareer()} className='p-datatable-gridlines mt hidden-header' >
+                    <Column field="name"></Column>
+                    <Column field="value"></Column>
+                </DataTable>
+            </Dialog>
+        </Fragment>
+    )
 }
-
-const mapStateToProps = state => ({
-    selectCareer: state.career.selectCareer,
-    careers: state.career.careers,
-    courseSelect: state.course.courseSelect
-});
-
-export default connect(mapStateToProps,{getCareersCourse})(CareerDetails);

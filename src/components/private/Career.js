@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getCareersCourse, getCareerDisp, addCareer, deleteCareer, updateCareer} from '../../actions/career';
+import {TableCareer} from '../views/utils/career/TableCareer';
+import {ALL_CAREERS} from '../util/constants';
 
 export class PCareer extends Component {
 
@@ -22,7 +24,9 @@ export class PCareer extends Component {
 
     render() {
         return (
-            <Fragment>Career</Fragment>
+            <Fragment>
+                <TableCareer type={ALL_CAREERS} events={this.props} careers={this.props.careers} admin={true}/>
+            </Fragment>
         );
     }
 }

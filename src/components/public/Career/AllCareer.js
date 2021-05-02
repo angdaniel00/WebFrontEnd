@@ -2,15 +2,18 @@ import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getCareers, getCareersCourse} from '../../../actions/career';
+import {TableCareer} from '../../views/utils/career/TableCareer';
+import {ALL_CAREERS} from '../../util/constants';
 
 export class AllCareer extends Component {
 
     static propTypes={
+        courseSelect: PropTypes.number.isRequired,
+        courses: PropTypes.array.isRequired,
         selectCareer: PropTypes.number.isRequired,
         careers: PropTypes.array.isRequired,
-        courseSelect: PropTypes.number.isRequired,
         getCareers: PropTypes.func.isRequired,
-        getCareersCourse: PropTypes.func.isRequired
+        getCareersCourse: PropTypes.func.isRequired,
     }
 
     componentDidMount(){
@@ -19,7 +22,9 @@ export class AllCareer extends Component {
 
     render() {
         return (
-            <Fragment>All career</Fragment>
+            <Fragment>
+                <TableCareer careers={this.props.careers} events={this.props} admin={false} type={ALL_CAREERS}/>
+            </Fragment>
         );
     }
 }
@@ -27,7 +32,8 @@ export class AllCareer extends Component {
 const mapStateToProps = state => ({
     selectCareer: state.career.selectCareer,
     careers: state.career.careers,
-    courseSelect: state.course.courseSelect
+    courseSelect: state.course.courseSelect,
+    courses: state.course.courses
 });
 
 export default connect(mapStateToProps,{getCareers, getCareersCourse})(AllCareer);

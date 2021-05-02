@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import {Dialog} from 'primereact/dialog';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
@@ -6,49 +6,41 @@ import {Dropdown} from 'primereact/dropdown';
 import './css/dialogcreate.css';
 import {initialSelection} from './TableAllStudent';
 
-export class DialogCreate extends Component {
+export const DialogCreate = ({addStudentD, visible, hide, courses}) => {
 
-    state={
-        id: null,
-        course: null,
-        name: '',
-        scholl: '',
-        acpre: null,
-        math: -1,
-        spanish: -1,
-        history: -1,
-        noteFinal: -1
-    }
+    const [student, setStudent] = useState(initialSelection)
 
-    addStudentD = (event)=>{
-        if(this.validStudent()){
-            this.props.addStudentD(this.state)
-            this.setState(initialSelection)
+    const addStudent = (event)=>{
+        if(validStudent()){
+            addStudentD(student)
+            setStudent(initialSelection)
         }
     }
 
-    onChange = e => this.setState({ [e.target.name]: e.target.value })
+    const onChange = e => {
+        const st = student
+        st[e.target.name]=e.target.value
+        setStudent(st)
+    }
 
-    validStudent = () =>{
-        const{name, course, school, acpre}=this.state
+    const validStudent = () =>{
+        const{name, school, course, acpre}=student
         return (name && name.length>0 && school && school.length>0 && course && acpre && acpre!=='' && acpre>=0 && acpre<=100);
     }
 
-    render() {
-        return (
-            <Fragment>
-                <Dialog visible={this.props.visible} onHide={this.props.hide} header='A&ntilde;adir estudiante'>
-                    <label className='element-custom'>Curso</label>
-                    <Dropdown optionLabel='cyear' optionValue="id" value={this.state.course} onChange={this.onChange} name='course' options={this.props.courses} placeholder='Curso'/>
-                    <label className='element-custom'>Nombre</label>
-                    <InputText onChange={this.onChange} className='element-custom' name='name' placeholder='Nombre'/>
-                    <label className='element-custom'>Escuela</label>
-                    <InputText onChange={this.onChange} className='element-custom' name='school' placeholder='Escuela'/>
-                    <label className='element-custom'>Acumulado pre</label>
-                    <InputText type='number' onChange={this.onChange} className='element-custom' min={0} max={100} name='acpre' placeholder='Acumulado'/>
-                    <Button label='Guardar' icon='pi pi-save' onClick={this.addStudentD}/>
-                </Dialog>
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <Dialog visible={visible} onHide={hide} header='A&ntilde;adir estudiante'>
+                <label className='element-custom'>Curso</label>
+                <Dropdown optionLabel='cyear' optionValue="id" value={student.course} onChange={onChange} name='course' options={courses} placeholder='Curso'/>
+                <label className='element-custom'>Nombre</label>
+                <InputText onChange={onChange} className='element-custom' name='name' placeholder='Nombre'/>
+                <label className='element-custom'>Escuela</label>
+                <InputText onChange={onChange} className='element-custom' name='school' placeholder='Escuela'/>
+                <label className='element-custom'>Acumulado pre</label>
+                <InputText type='number' onChange={onChange} className='element-custom' min={0} max={100} name='acpre' placeholder='Acumulado'/>
+                <Button label='Guardar' icon='pi pi-save' onClick={addStudent}/>
+            </Dialog>
+        </Fragment>
+    )
 }

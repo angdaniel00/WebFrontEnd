@@ -3,7 +3,7 @@ import { returnErrors} from './messages';
 import { USER_LOADING, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from './types';
 
 // Login user
-export const login = (username, password) =>dispatch =>{
+export const login = (username, password, failed) =>dispatch =>{
  //User Loading
     dispatch({type: USER_LOADING});
 
@@ -25,26 +25,14 @@ export const login = (username, password) =>dispatch =>{
                 payload: res.headers.authorization
             });
         }).catch(err => {
-            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({
                 type: LOGIN_FAIL
             })
+            failed()
         })
 }
 
-//Logout user
-/*export const logout = () =>(dispatch, getState) =>{
-    const json=JSON.stringify({})
-    axios.post('/logout', json, tokenConfig(getState))
-        .then(res => {
-            dispatch({
-                type: LOGOUT
-            });
-        }).catch(err => {
-            dispatch(returnErrors(err.response.data, err.response.status));
-        })
-}*/
 export const logout = () =>(dispatch, getState)=>{
     dispatch({
         type:LOGOUT

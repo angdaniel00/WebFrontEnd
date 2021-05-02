@@ -1,0 +1,7 @@
+#dialog{
+    width: 37rem;
+}
+
+.hidden-header div table thead tr{
+    display: none;
+}
