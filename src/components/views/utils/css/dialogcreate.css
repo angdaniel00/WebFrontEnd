@@ -7,3 +7,38 @@
 .block{
     display: block;
 }
+
+.w-100{
+    width: 100%!important;
+}
+
+.div-ticket{
+    display: flex;
+    margin-top: .5rem;
+}
+
+.btn-save-ticket{
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.btn-back{
+    background: #d32f2f !important;
+    border:#d32f2f !important;
+}
+
+.mt-1{
+    margin-top: 1rem;
+}
+
+.p-dialog .p-dialog-content {
+    background: #fff;
+    color: #495057;
+    padding: 0 1.5rem .5rem;
+}
+
+.element-custom-dropdow{
+    width: 25rem !important;
+    margin-bottom: .5rem !important;
+    display: flex;
+}

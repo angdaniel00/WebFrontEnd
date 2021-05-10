@@ -4,16 +4,35 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import './css/dialogcreate.css';
-import {initialSelection} from './TableAllStudent';
 
 export const DialogCreate = ({addStudentD, visible, hide, courses}) => {
 
-    const [student, setStudent] = useState(initialSelection)
+    const [student, setStudent] = useState({
+        id: null,
+        course: null,
+        name: '',
+        scholl: '',
+        acpre: null,
+        math: -1,
+        spanish: -1,
+        history: -1,
+        noteFinal: -1
+    })
 
     const addStudent = (event)=>{
         if(validStudent()){
             addStudentD(student)
-            setStudent(initialSelection)
+            setStudent({
+                id: null,
+                course: null,
+                name: '',
+                scholl: '',
+                acpre: null,
+                math: -1,
+                spanish: -1,
+                history: -1,
+                noteFinal: -1
+        })
         }
     }
 

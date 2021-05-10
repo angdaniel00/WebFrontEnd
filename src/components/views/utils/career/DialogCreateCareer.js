@@ -5,17 +5,35 @@ import {InputTextarea} from 'primereact/inputtextarea';
 import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import '../css/dialogcreate.css';
-import {initialSelection} from './TableCareer';
 
 export const DialogCreateCareer = ({addCareerD, visible, hide, courses}) => {
 
-    const [career, setCareer] = useState(initialSelection)
+    const [career, setCareer] = useState({
+        id: null,
+        name: '',
+        course: null,
+        university: '',
+        cant: null,
+        disp: null,
+        description: '',
+        corte: -1
+    })
     const {course} = career
 
     const addCareer = (event)=>{
         if(validCareer()){
+            career.disp=career.cant
             addCareerD(career)
-            setCareer(initialSelection)
+            setCareer({
+                id: null,
+                name: '',
+                course: null,
+                university: '',
+                cant: null,
+                disp: null,
+                description: '',
+                corte: -1
+        })
         }
     }
 

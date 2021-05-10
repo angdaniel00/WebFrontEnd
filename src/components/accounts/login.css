@@ -1,6 +1,7 @@
 .panel-custom{
     width: min-content;
-    margin-inline: auto;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 6rem;
     box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
 }

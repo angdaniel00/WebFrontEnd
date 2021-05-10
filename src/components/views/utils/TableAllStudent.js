@@ -58,6 +58,10 @@ export const TableAllStudents =({students, events, admin, type})=> {
         (selection && selection.id) ?setVisibleUpdate(true):showToast()
     }
 
+    const cleanSelection = () => {
+        setSelection(initialSelection)
+    }
+
     const hide=(event)=>{
         setVisible(false)
     }
@@ -113,12 +117,10 @@ export const TableAllStudents =({students, events, admin, type})=> {
     }
 
     const onRefresh = (event) => {
-        if(event.target.name==='course'){
+        if(event.target.name==='course')
             setSelectionCourse(event.target.value)
-            console.log(event.target.name)
-        }
         setSelection(initialSelection)
-        const s = event.target.name==='refreshButton'?selectionCourse:event.target.value
+        const s = (!event.target.name || event.target.name==='refreshButton')?selectionCourse:event.target.value
         switch(type){
             case ALL_STUDENTS:
                 events.getStudentsAllCourse(s)
@@ -173,7 +175,7 @@ export const TableAllStudents =({students, events, admin, type})=> {
         <Fragment>
                 <Toast ref={toast} onRemove={()=>toast.current.clear()} className='toast'/>
                 {admin?<DialogCreate addStudentD={addStudentD} hide={hide} visible={visible} courses={events.courses}/>:null}
-                {admin?<DialogUpdate updateStudentD={updateStudentD} hiden={hideU} visible={visibleUpdate} student={selection}/>:null}
+                {admin?<DialogUpdate updateStudentD={updateStudentD} hiden={hideU} visible={visibleUpdate} student={selection} clean={cleanSelection}/>:null}
                 {admin?<Toolbar className='mt' left={left} right={right}/>:<Toolbar className='mt' left={leftPublic} right={rightPublic}/>}
                 <StudentDetails visible={visibleInfo} hide={()=>setVisibleInfo(false)} student={selection}/>
                 <DataTable header="Estudiantes" value={students} selection={selection} onSelectionChange={onSelection} selectionMode='single' dataKey='id' className='p-datatable-gridlines mt'>

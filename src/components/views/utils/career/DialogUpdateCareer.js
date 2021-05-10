@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import {Dialog} from 'primereact/dialog';
 import {InputText} from 'primereact/inputtext';
 import {InputTextarea} from 'primereact/inputtextarea';
@@ -7,12 +7,19 @@ import '../css/dialogcreate.css';
 
 export const DialogUpdateCareer = ({visible, hiden, career, updateCareerD}) => {
 
+    const[antCant, setAntCant] = useState(null)
+
     const updateCareer = (event)=>{
-        if(validCareer())
+        if(validCareer()){
+            if(antCant)
+                career.disp += (career.cant-antCant)
             updateCareerD(career)
+        }
     }
 
     const onChange = e => {
+        if(e.target.name==='cant' && !antCant)
+            setAntCant(career.cant)
         career[e.target.name]= e.target.value;
     }
 

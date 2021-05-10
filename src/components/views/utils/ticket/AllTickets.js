@@ -3,27 +3,32 @@ import {Button} from 'primereact/button'
 import {Toolbar} from 'primereact/toolbar';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import {DialogCreateCareer} from './DialogCreateCareer';
-import {DialogUpdateCareer} from './DialogUpdateCareer';
+import {CreateTicket} from './CreateTicket';
+import {UpdateTicket} from './UpdateTicket';
 import {confirmDialog} from 'primereact/confirmdialog';
 import {Dropdown} from 'primereact/dropdown';
 import {Toast} from 'primereact/toast';
 import '../css/tableallstudent.css';
-import {ALL_CAREERS, DISP_CAREERS} from '../../../util/constants';
-import {CareerDetails} from '../../CareerDetails';
+import {TicketDetails} from '../../TicketDetails';
 
 export const initialSelection={
         id: null,
-        name: '',
         course: null,
-        university: '',
-        cant: null,
-        disp: null,
-        description: '',
-        corte: -1
+        student: null,
+        studentName: '',
+        option1: null,
+        option2: null,
+        option3: null,
+        option4: null,
+        option5: null,
+        option6: null,
+        option7: null,
+        option8: null,
+        option9: null,
+        option10: null
 }
 
-export const TableCareer =({careers, events, admin, type})=> {
+export const TableAllTickets =({students, careers, tickets, events, admin})=> {
 
     const [selectionCourse, setSelectionCourse]=useState(events.courseSelect)
     const [visible, setVisible] = useState(false)
@@ -34,11 +39,19 @@ export const TableCareer =({careers, events, admin, type})=> {
     const toast = useRef(null)
 
     const showToast = () =>{
-        toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar una carrera', life:2000})
+        toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar una boleta', life:2000})
+    }
+
+    const noSelect = () =>{
+        toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar un estudiante', life:2000})
+    }
+
+    const showError = () =>{
+        toast.current.show({severity: 'error', summary:'Error', detail:'Datos incorrectos o incompletos', life:2000})
     }
 
     const showConfirmDelete = () =>{
-        toast.current.show({severity: 'error', summary:'Borrado', detail:'Carrera eliminada', life:2000})
+        toast.current.show({severity: 'error', summary:'Borrado', detail:'Boleta eliminada', life:2000})
     }
 
     const successUpdate = () =>{
@@ -49,12 +62,16 @@ export const TableCareer =({careers, events, admin, type})=> {
         toast.current.show({severity: 'error', summary:'Error', detail:'No hay cursos agregados', life:2000})
     }
 
-    const createCareer=(event)=>{
+    const createTicket=(event)=>{
         (!events.courseSelect || events.courseSelect===-1)?error():setVisible(true)
     }
 
-    const updateCareer=(event)=>{
+    const updateTicket=(event)=>{
         (selection && selection.id) ?setVisibleUpdate(true):showToast()
+    }
+
+    const cleanSelection = () => {
+        setSelection(initialSelection)
     }
 
     const hide=(event)=>{
@@ -65,13 +82,13 @@ export const TableCareer =({careers, events, admin, type})=> {
         setVisibleUpdate(false)
     }
 
-    const addCareerD = (student)=>{
-        events.addCareer(student)
+    const addTicketD = (ticket)=>{
+        events.addTicket(ticket)
         hide()
     }
 
-    const updateCareerD = (student)=>{
-        events.updateCareer(student)
+    const updateTicketD = (ticket)=>{
+        events.updateTicket(ticket)
         hideU()
         successUpdate()
     }
@@ -97,7 +114,7 @@ export const TableCareer =({careers, events, admin, type})=> {
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-danger',
             accept: ()=>{
-                events.deleteCareer(selection.id);
+                events.deleteTicket(selection.id);
                 setConfirmVisible(false)
                 setSelection(initialSelection)
                 showConfirmDelete()
@@ -115,25 +132,16 @@ export const TableCareer =({careers, events, admin, type})=> {
         if(event.target.name==='course')
             setSelectionCourse(event.target.value)
         setSelection(initialSelection)
-        const s = (!event.target.name || event.target.name==='refresh')?selectionCourse:event.target.value
-        switch(type){
-            case ALL_CAREERS:
-                events.getCareersCourse(s)
-                break;
-            case DISP_CAREERS:
-                events.getCareerDisp(s)
-                break;
-            default:
-                break;
-        }
+        const s = (!event.target.name || event.target.name==='refreshButton')?selectionCourse:event.target.value
+        events.getTicketsCourse(s)
     }
 
     const left=(
         <Fragment>
-            <Button tooltip='Nuevo' icon='pi pi-plus' className='p-mr-2' onClick={createCareer} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateCareer} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Nuevo' icon='pi pi pi-plus' className='p-mr-2' onClick={createTicket} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateTicket} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Borrar' icon='pi pi-trash' className='p-button-danger p-mr-2' onClick={onDelete} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refresh' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
 
@@ -154,22 +162,20 @@ export const TableCareer =({careers, events, admin, type})=> {
     const rightPublic=(
         <Fragment>
            <Button tooltip='Informaci&oacute;n' icon='pi pi-info-circle' className='p-mr-2' onClick={onInfo} tooltipOptions={{position: 'bottom'}}/>
-           <Button tooltip='Actualizar' icon='pi pi-refresh' name='refresh' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
          
     return (
         <Fragment>
                 <Toast ref={toast} onRemove={()=>toast.current.clear()} className='toast'/>
-                {admin?<DialogCreateCareer addCareerD={addCareerD} hide={hide} visible={visible} courses={events.courses}/>:null}
-                {admin?<DialogUpdateCareer updateCareerD={updateCareerD} hiden={hideU} visible={visibleUpdate} career={selection}/>:null}
+                {admin?<CreateTicket addTicketD={addTicketD} hide={hide} visible={visible} showError={showError} noSelect={noSelect} students={students.filter(student=>!student.ticket)} careers={careers.filter(career => career.disp>0)} course={selectionCourse?selectionCourse:events.courseSelect}/>:null}
+                {admin?<UpdateTicket updateTicketD={updateTicketD} hiden={hideU} visible={visibleUpdate} showError={showError} careers={careers.filter(career => career.disp>0)} ticket={selection} clean={cleanSelection}/>:null}
                 {admin?<Toolbar className='mt' left={left} right={right}/>:<Toolbar className='mt' left={leftPublic} right={rightPublic}/>}
-                <CareerDetails visible={visibleInfo} hide={()=>setVisibleInfo(false)} career={selection}/>
-                <DataTable header="Carreras" value={careers} selection={selection} onSelectionChange={onSelection} selectionMode='single' dataKey='id' className='p-datatable-gridlines mt'>
-                    <Column field="name" header="Nombre"></Column>
-                    <Column field="university" header="Universidad"></Column>
-                    <Column field="cant" header="Cantidad"></Column>
-                    <Column field="description" header="Descripci&oacute;n"></Column>
+                <TicketDetails visible={visibleInfo} hide={()=>setVisibleInfo(false)} ticket={selection}/>
+                <DataTable header="Boletas" value={tickets} selection={selection} onSelectionChange={onSelection} selectionMode='single' dataKey='id' className='p-datatable-gridlines mt'>
+                    <Column field="id" header="ID"></Column>
+                    <Column field="studentName" header="Estudiante"></Column>
                 </DataTable>
         </Fragment>
     )

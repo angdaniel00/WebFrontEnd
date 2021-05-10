@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {HashRouter as Router, useHistory} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 import Header from './components/layout/Header';
 import {Provider} from 'react-redux';
 import store from './store';
@@ -44,7 +44,7 @@ export class App extends Component {
       <div>
         <Provider store={store}>
           <AlertProvider template={AlertTemplate} {...AlertOptions}>
-            <Router history={useHistory}>
+            <HashRouter>
               <Fragment>
                 <Header/>
                 <Alerts/>
@@ -64,7 +64,7 @@ export class App extends Component {
                     <PrivateRoute exact path="/private/tickets" component={PTicketsView} type='private'/>
                   </Switch>
               </Fragment>
-            </Router>
+            </HashRouter>
           </AlertProvider>
         </Provider>
       </div>

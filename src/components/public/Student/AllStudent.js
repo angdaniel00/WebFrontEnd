@@ -11,7 +11,6 @@ export class AllStudents extends Component {
         courseSelect: PropTypes.number.isRequired,
         courses: PropTypes.array.isRequired,
         students: PropTypes.array.isRequired,
-        selected: PropTypes.object.isRequired,
         addStudent: PropTypes.func.isRequired,
         updateStudent: PropTypes.func.isRequired,
         deleteStudent: PropTypes.func.isRequired,
@@ -19,7 +18,7 @@ export class AllStudents extends Component {
         getStudentsAllCourse: PropTypes.func.isRequired,
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.props.getStudentsAllCourse(this.props.courseSelect);
     }
 
@@ -35,8 +34,7 @@ export class AllStudents extends Component {
 const mapStateToProps = state => ({
     courseSelect: state.course.courseSelect,
     courses: state.course.courses,
-    students: state.students.students,
-    selected: state.students.selected
+    students: state.students.students
 });
 
 export default connect(mapStateToProps,{addStudent, updateStudent,deleteStudent, getStudentsAllCourse, getStudent})(AllStudents);

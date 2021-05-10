@@ -10,7 +10,6 @@ export class DispCareer extends Component {
     static propTypes={
         courseSelect: PropTypes.number.isRequired,
         courses: PropTypes.array.isRequired,
-        selectCareer: PropTypes.number.isRequired,
         careers: PropTypes.array.isRequired,
         getCareerDisp: PropTypes.func.isRequired
     }
@@ -29,7 +28,6 @@ export class DispCareer extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectCareer: state.career.selectCareer,
     careers: state.career.careers,
     courseSelect: state.course.courseSelect,
     courses: state.course.courses

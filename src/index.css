@@ -6,6 +6,7 @@ body{
 
 .hidden{
     visibility: hidden;
+    height: 0;
 }
 
 .btn-search{

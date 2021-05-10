@@ -4,11 +4,13 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import './css/dialogcreate.css';
 
-export const DialogUpdate = ({visible, hiden, student, updateStudentD}) => {
+export const DialogUpdate = ({visible, hiden, student, updateStudentD, clean}) => {
 
     const updateStudent = (event)=>{
-        if(validStudent())
+        if(validStudent()){
             updateStudentD(student)
+            clean()
+        }
     }
 
     const onChange = e => {

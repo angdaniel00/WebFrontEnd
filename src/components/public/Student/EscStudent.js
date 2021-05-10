@@ -11,7 +11,6 @@ export class EscStudents extends Component {
         courseSelect: PropTypes.number.isRequired,
         courses: PropTypes.array.isRequired,
         students: PropTypes.array.isRequired,
-        selected: PropTypes.object.isRequired,
         getEscalafon: PropTypes.func.isRequired
     }
 
@@ -31,8 +30,7 @@ export class EscStudents extends Component {
 const mapStateToProps = state => ({
     courseSelect: state.course.courseSelect,
     courses: state.course.courses,
-    students: state.students.students,
-    selected: state.students.selected
+    students: state.students.students
 });
 
 export default connect(mapStateToProps,{getEscalafon})(EscStudents);

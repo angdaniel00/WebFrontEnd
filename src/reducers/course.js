@@ -21,7 +21,7 @@ export default function(state= initialState, action) {
         case DELETE_COURSE:
             return { 
                 ...state, 
-                careers: state.courses.filter(course => course.id !== action.payload) 
+                courses: state.courses.filter(course => course.id !== action.payload) 
             }
         case ADD_COURSE:
             return{
@@ -36,7 +36,7 @@ export default function(state= initialState, action) {
         case UPDATE_COURSE:
             return{
                 ...state,
-                careers: [...state.courses.filter(course => course.id !== action.payload.id), action.payload]
+                courses: [...state.courses.filter(course => course.id !== action.payload.id), action.payload]
             }
         default:
             return state

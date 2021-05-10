@@ -1,8 +1,7 @@
 import {GET_STUDENTS, DELETE_STUDENT, ADD_STUDENT, UPDATE_STUDENT, CHANGE_STUDENT} from '../actions/types';
 
 const initialState = {
-    students: [],
-    selected: null
+    students: []
 }
 
 const fixedStudents = (students) =>{

@@ -1,8 +1,7 @@
 import {GET_CAREERS, ADD_CAREER, UPDATE_CAREER, DELETE_CAREER} from '../actions/types';
 
 const initialState = {
-    careers:[],
-    selectCareer: -1
+    careers:[]
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

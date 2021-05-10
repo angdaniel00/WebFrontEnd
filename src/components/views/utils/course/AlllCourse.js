@@ -83,6 +83,8 @@ export const AllCourses =({courses, events})=> {
             acceptClassName: 'p-button-danger',
             accept: ()=>{
                 events.deleteCourse(selection.id);
+                if(selection.id===events.courseSelect)
+                    events.getActual()
                 setConfirmVisible(false)
                 setSelection(initialSelection)
                 showConfirmDelete()

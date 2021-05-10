@@ -1,8 +1,7 @@
 import {ADD_TICKET, GET_TICKET, GET_TICKETS, UPDATE_TICKET, DELETE_TICKET} from '../actions/types';
 
 const initialState = {
-    tickets:[],
-    ticketSelect: -1
+    tickets:[]
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

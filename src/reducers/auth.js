@@ -4,7 +4,6 @@ const initialState = {
     token: null,
     isAuthenticated: false,
     isLoading: false
-    //user: null
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

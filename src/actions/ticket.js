@@ -26,12 +26,15 @@ export const getTickets = () => dispatch => {
 }
 
 //GET Tickets Course
-export const getTicketsCourse = (course) => dispatch => {
+export const getTicketsCourse = (course) => (dispatch, getState) => {
     axios.get('/public/ticket/all/'+course)
         .then(res=>{
+            const state = getState()
+            state.students.students = res.data.students
+            state.career.careers = res.data.careers
             dispatch({
                 type: GET_TICKETS,
-                payload: res.data
+                payload: res.data.tickets
             })
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
@@ -40,6 +43,8 @@ export const getTicketsCourse = (course) => dispatch => {
 export const deleteTicket = (id) => (dispatch, getState) => {
     axios.delete('/private/boleta/'+id, tokenConfig(getState))
         .then(res=>{
+            var student =  getState().students.students.find(st=>st.ticket===id)
+            student.ticket=null
             dispatch(createMessage({deleteTicket: 'Ticket deleted'}))
             dispatch({
                 type: DELETE_TICKET,
@@ -52,12 +57,16 @@ export const deleteTicket = (id) => (dispatch, getState) => {
 export const addTicket = (ticket) => (dispatch, getState) => {
     axios.post('/private/boleta', ticket, tokenConfig(getState))
         .then(res=>{
+            const ticketC = res.data
+            var student =  getState().students.students.find(st=>st.id===ticket.student)
+            ticketC.studentName = student.name
+            student.ticket=ticketC.id
             dispatch(createMessage({addTicket: 'Ticket added'}))
             dispatch({
                 type: ADD_TICKET,
-                payload: res.data
+                payload: ticketC
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
+        }).catch(err => console.log(err))
 }
 
 //UPDATE Ticket
