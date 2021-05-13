@@ -12,9 +12,12 @@ import './login.css'
 
 export class Login extends Component {
 
-    state = {
-        username: '',
-        password: ''
+    constructor(props){
+        super(props)
+        this.state= {
+            username: '',
+            password: ''
+        }
     }
 
     static propTypes = {
@@ -27,9 +30,8 @@ export class Login extends Component {
     }
 
     onSubmit = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.login(this.state.username, this.state.password, this.failed);
+        const {username, password} = this.state
+        this.props.login(username, password, this.failed);
     }
 
 
@@ -48,9 +50,9 @@ export class Login extends Component {
                 <Toast ref={this.refs} onRemove={()=>this.refs.current.clear()}/>
                 <Panel header="Login" className='panel-custom'>
                     <label className='element-custom-l w-20'>Usuario</label>
-                    <InputText  className='element-custom-l w-20' name='username' onChange={this.onChange}/>
+                    <InputText  className='element-custom-l w-20' name='username' required={true} onChange={this.onChange}/>
                     <label className='element-custom-l w-20'>Contrase&ntilde;a</label>
-                    <Password className='element-custom-l w-20' name='password' onChange={this.onChange} toggleMask={false} footer={null}/>
+                    <Password className='element-custom-l w-20' name='password' required={true} onChange={this.onChange} toggleMask={false} footer={null}/>
                     <Button className='element-custom-l btn' onClick={this.onSubmit} label="Login"/>
                 </Panel>   
             </div>

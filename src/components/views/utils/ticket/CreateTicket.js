@@ -35,13 +35,12 @@ export const CreateTicket = ({addTicketD, students, careers, visible, hide, cour
     const [showOption9, setShowOption9] = useState(true)
     const [showOption10, setShowOption10] = useState(true)
 
+    const [invalid, setInvalid] = useState(false)
+
     const addTicket = (event)=>{
         const t = ticket
         t.course=course
         if(validTicket()){
-            console.log(t)
-            console.log(students)
-            console.log(students.find(st=>st.id===t.student))
             addTicketD(t)
             setTicket({
                 id: null,
@@ -162,13 +161,17 @@ export const CreateTicket = ({addTicketD, students, careers, visible, hide, cour
     const onChangeOption = e =>{
         var st = ticket
         const value = e.target.value==='Ninguno'?null:e.target.value
-        st[e.target.name]=value
+        const name = e.target.name
+        if(name==='option1')
+            setInvalid(!(value && value!==''))
+        st[name]=value
         setTicket(st)
-        changeDisabled(e.target.name, value)
+        changeDisabled(name, value)
     }
 
     const validTicket = () =>{
         const{course, student, option1}=ticket
+        setInvalid(!(option1))
         return (course && student && option1);
     }
 
@@ -218,6 +221,7 @@ export const CreateTicket = ({addTicketD, students, careers, visible, hide, cour
             option10: null
         })
         setSelectStudentView(true)
+        setInvalid(false)
         hide()
     }
 
@@ -231,7 +235,7 @@ export const CreateTicket = ({addTicketD, students, careers, visible, hide, cour
                 </div>:
 
                 <div>
-                    <Dropdown className="element-custom-dropdow" optionLabel='name' optionValue="name" filter={true} required={true} value={ticket.option1} onChange={onChangeOption} name='option1' options={[{name:'Ninguno'}, ...careers]} placeholder='Opci&oacute;n 1'/>
+                    <Dropdown className={invalid?"element-custom-dropdow p-invalid":"element-custom-dropdow"} optionLabel='name' optionValue="name" filter={true} required={true} value={ticket.option1} onChange={onChangeOption} name='option1' options={[{name:'Ninguno'}, ...careers]} placeholder='Opci&oacute;n 1'/>
                     
                     <Dropdown className="element-custom-dropdow" optionLabel='name' optionValue="name" filter={true} disabled={showOption2} value={ticket.option2} onChange={onChangeOption} name='option2' options={[{name:'Ninguno'}, ...careers.filter(career=>career.name!==ticket.option1)]} placeholder='Opci&oacute;n 2'/>
                     

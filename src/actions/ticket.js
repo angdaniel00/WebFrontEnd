@@ -73,10 +73,13 @@ export const addTicket = (ticket) => (dispatch, getState) => {
 export const updateTicket = (ticket) => (dispatch, getState) => {
     axios.put('/private/boleta', ticket, tokenConfig(getState))
         .then(res=>{
+            const ticketC = res.data
+            var student =  getState().students.students.find(st=>st.id===ticket.student)
+            ticketC.studentName = student.name
             dispatch(createMessage({updateTicket: 'Ticket updated'}))
             dispatch({
                 type: UPDATE_TICKET,
-                payload: res.data
+                payload: ticketC
             })
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
 }

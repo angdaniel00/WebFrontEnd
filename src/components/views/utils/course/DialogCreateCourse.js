@@ -12,6 +12,7 @@ export const DialogCreateCourse = ({addCourseD, getActual, visible, hiden, cours
         cyear:''
     })
     const [textLabel, setTextLabel] = useState('')
+    const [invalidCourse, setInvalidCourse] = useState(false)
     const ref = useRef(null)
 
     const showToast = () =>{
@@ -19,7 +20,7 @@ export const DialogCreateCourse = ({addCourseD, getActual, visible, hiden, cours
     }
 
     const addCourse = (event)=>{
-        if(validCareer()){
+        if(validCourse()){
             addCourseD(course.cyear)
             getActual()
             setCourse({
@@ -27,16 +28,20 @@ export const DialogCreateCourse = ({addCourseD, getActual, visible, hiden, cours
                 cyear:''
             })
         }
+        else{
+            setInvalidCourse(true)
+        }
     }
 
     const onChange = e => {
         const c = course
         c.cyear=e.target.valueAsNumber+'-'+(e.target.valueAsNumber+1)
+        setInvalidCourse(c.cyear===''|| c.cyear==='NaN-NaN')
         setCourse(c)
         setTextLabel(course.cyear===''|| course.cyear==='NaN-NaN'?null:course.cyear)
     }
 
-    const validCareer = () =>{
+    const validCourse = () =>{
         const toast = coursesD.some(c=>c.cyear===course.cyear)
         if(toast)
             showToast()
@@ -44,13 +49,18 @@ export const DialogCreateCourse = ({addCourseD, getActual, visible, hiden, cours
         return course.cyear!=='NaN-NaN' && sp && sp[0] >= 2018 && !toast
     }
 
+    const hidenDialog = () =>{
+        setInvalidCourse(false)
+        hiden()
+    }
+
     return (
         <Fragment>
             <Toast ref={ref} onRemove={()=>ref.current.clear()}/>
-            <Dialog visible={visible} onHide={hiden} header='A&ntilde;adir curso'>
+            <Dialog visible={visible} onHide={hidenDialog} header='A&ntilde;adir curso'>
                 <label>Curso: {textLabel}</label>
                 <label className='element-custom'>A&ntilde;o de inicio</label>
-                <InputText type='number' onChange={onChange} className='element-custom' min={2018} max={2100} step={1} requiered={true} name='initial' placeholder='A&ntilde;o'/>
+                <InputText type='number' onChange={onChange} className={invalidCourse?'element-custom p-invalid':'element-custom'} min={2018} max={2100} step={1} requiered={true} name='initial' placeholder='A&ntilde;o'/>
                 <Button label='Guardar' icon='pi pi-save' onClick={addCourse}/>
             </Dialog>
         </Fragment>

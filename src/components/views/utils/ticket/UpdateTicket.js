@@ -31,10 +31,10 @@ export const UpdateTicket = ({visible, hiden, ticket, updateTicketD, clean, care
     const [showOption8, setShowOption8] = useState(true)
     const [showOption9, setShowOption9] = useState(true)
     const [showOption10, setShowOption10] = useState(true)
+    const [invalid, setInvalid] = useState(false)
 
     const updateTicket = (event)=>{
         if(validTicket()){
-            //revisar a ver si lo acepta así el Back End
             updateTicketD(ticket)
             clean()
         }
@@ -137,44 +137,55 @@ export const UpdateTicket = ({visible, hiden, ticket, updateTicketD, clean, care
         setTicketU(ticketU)
     }
 
+    const hidenD = () =>{
+        setShowOption2(true)
+        setShowOption3(true)
+        setShowOption4(true)
+        setShowOption5(true)
+        setShowOption6(true)
+        setShowOption7(true)
+        setShowOption8(true)
+        setShowOption9(true)
+        setShowOption10(true)
+        setInvalid(false)
+        hiden()
+    }
+
     const initDialog = () =>{
         setTicketU(ticket)
-        if(ticket.option2)
-            setShowOption3(false)
-        if(ticket.option3)
-            setShowOption4(false)
-        if(ticket.option4)
-            setShowOption5(false)
-        if(ticket.option5)
-            setShowOption6(false)
-        if(ticket.option6)
-            setShowOption7(false)
-        if(ticket.option7)
-            setShowOption8(false)
-        if(ticket.option8)
-            setShowOption9(false)
-        if(ticket.option9)
-            setShowOption10(false)
+        setShowOption2(false)
+        setShowOption3(!(ticket.option2 && ticket.option2!==''))
+        setShowOption4(!(ticket.option3 && ticket.option3!==''))
+        setShowOption5(!(ticket.option4 && ticket.option4!==''))
+        setShowOption6(!(ticket.option5 && ticket.option5!==''))
+        setShowOption7(!(ticket.option6 && ticket.option6!==''))
+        setShowOption8(!(ticket.option7 && ticket.option7!==''))
+        setShowOption9(!(ticket.option8 && ticket.option8!==''))
+        setShowOption10(!(ticket.option9 && ticket.option9!==''))
     }
 
     const validTicket = () =>{
         const{course, student, option1}=ticket
+        setInvalid(!(option1))
         return (course && student && option1);
     }
 
     const onChangeOption = e =>{
         const value = e.target.value==='Ninguno'?null:e.target.value
-        ticketU[e.target.name]=value
-        changeDisabled(e.target.name, value)
+        const name = e.target.name
+        if(name==='option1')
+            setInvalid(!(value && value!==''))
+        ticketU[name]=value
+        changeDisabled(name, value)
         setTicketU(ticketU)
     }
 
     return (
         <Fragment>
-            <Dialog visible={visible} onShow={initDialog} onHide={hiden} header='Actualizar boleta'>
+            <Dialog visible={visible} onShow={initDialog} onHide={hidenD} header='Actualizar boleta'>
                 <label className="element-custom">Estudiante: {ticket.studentName}</label>
                 <div>
-                    <Dropdown className="element-custom-dropdow" optionLabel='name' optionValue="name" filter={true} required={true} value={ticketU.option1} onChange={onChangeOption} name='option1' options={[{name:'Ninguno'}, ...careers]} placeholder='Opci&oacute;n 1'/>
+                    <Dropdown className={invalid?"element-custom-dropdow p-invalid":"element-custom-dropdow"} optionLabel='name' optionValue="name" filter={true} required={true} value={ticketU.option1} onChange={onChangeOption} name='option1' options={[{name:'Ninguno'}, ...careers]} placeholder='Opci&oacute;n 1'/>
                     
                     <Dropdown className="element-custom-dropdow" optionLabel='name' optionValue="name" filter={true} disabled={showOption2} value={ticketU.option2} onChange={onChangeOption} name='option2' options={[{name:'Ninguno'}, ...careers.filter(career=>career.name!==ticket.option1)]} placeholder='Opci&oacute;n 2'/>
                     

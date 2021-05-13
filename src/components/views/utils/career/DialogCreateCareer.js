@@ -18,6 +18,11 @@ export const DialogCreateCareer = ({addCareerD, visible, hide, courses}) => {
         description: '',
         corte: -1
     })
+    const [invalidCourse, setInvalidCourse] = useState(false)
+    const [invalidName, setInvalidName] = useState(false)
+    const [invalidUniversity, setInvalidUniversity] = useState(false)
+    const [invalidCant, setInvalidCant] = useState(false)
+    const [invalidDescription, setInvalidDescription] = useState(false)
     const {course} = career
 
     const addCareer = (event)=>{
@@ -39,29 +44,64 @@ export const DialogCreateCareer = ({addCareerD, visible, hide, courses}) => {
 
     const onChange = e => {
         const ca = career
-        ca[e.target.name]=e.target.value
+        const value = e.target.value
+        const name = e.target.name
+        switch(name){
+            case 'course':
+                setInvalidCourse(!(value && value!==''))
+                break
+            case 'name':
+                setInvalidName(!(value && value!==''))
+                break
+            case 'university':
+                setInvalidUniversity(!(value && value!==''))
+                break
+            case 'cant':
+                setInvalidCant(!(value && value!=='' && value>0))
+                break
+            case 'description':
+                setInvalidDescription(!(value && value!==''))
+                break
+            default:
+                break
+        }
+        ca[name]=value
         setCareer(ca)
     }
 
     const validCareer = () =>{
         const{name, cant, description, course, university}=career
-        return (name && name.length>0 && university && university.length>0 && course && cant && cant!=='' && cant>=0 &&
+        setInvalidCourse(!(course && course!==''))
+        setInvalidName(!(name && name!==''))
+        setInvalidUniversity(!(university && university!==''))
+        setInvalidCant(!(cant && cant!=='' && cant>0))
+        setInvalidDescription(!(description && description!==''))
+        return (name && name.length>0 && university && university.length>0 && course && cant && cant!=='' && cant>0 &&
         description && description.length>0);
+    }
+
+    const hidenDialog = () =>{
+        setInvalidCourse(false)
+        setInvalidName(false)
+        setInvalidUniversity(false)
+        setInvalidCant(false)
+        setInvalidDescription(false)
+        hide()
     }
 
     return (
         <Fragment>
-            <Dialog visible={visible} onHide={hide} header='A&ntilde;adir carrera'>
+            <Dialog visible={visible} onHide={hidenDialog} header='A&ntilde;adir carrera'>
                 <label className='element-custom'>Curso</label>
-                <Dropdown optionLabel='cyear' optionValue="id" value={course} onChange={onChange} name='course' options={courses} placeholder='Curso'/>
+                <Dropdown optionLabel='cyear' className={invalidCourse?'p-invalid':''} optionValue="id" value={course} onChange={onChange} name='course' options={courses} placeholder='Curso'/>
                 <label className='element-custom'>Nombre</label>
-                <InputText onChange={onChange} className='element-custom' name='name' placeholder='Nombre'/>
+                <InputText onChange={onChange} className={invalidName?'element-custom p-invalid':'element-custom'} name='name' placeholder='Nombre'/>
                 <label className='element-custom'>Universidad</label>
-                <InputText onChange={onChange} className='element-custom' name='university' placeholder='Universidad'/>
+                <InputText onChange={onChange} className={invalidUniversity?'element-custom p-invalid':'element-custom'} name='university' placeholder='Universidad'/>
                 <label className='element-custom'>Cantidad</label>
-                <InputText type='number' onChange={onChange} className='element-custom' min={0} name='cant' placeholder='Cantidad'/>
+                <InputText type='number' onChange={onChange} className={invalidCant?'element-custom p-invalid':'element-custom'} min={0} name='cant' placeholder='Cantidad'/>
                 <label className='element-custom'>Descripci&oacute;n</label>
-                <InputTextarea onChange={onChange} className='element-custom' name='description' placeholder='Descripci&oacute;n'/>
+                <InputTextarea onChange={onChange} className={invalidDescription?'element-custom p-invalid':'element-custom'} name='description' placeholder='Descripci&oacute;n'/>
                 <Button label='Guardar' icon='pi pi-save' onClick={addCareer}/>
             </Dialog>
         </Fragment>
