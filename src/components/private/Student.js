@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getStudents, getStudentsAllCourse,addStudent, updateStudent, deleteStudent} from '../../actions/students';
+import {getStudents, getStudentsAllCourse,addStudent, updateStudent, deleteStudent, calNoteFinal, asignCareer} from '../../actions/students';
 import {TableAllStudents} from '../views/utils/TableAllStudent';
 import {ALL_STUDENTS} from '../util/constants'
 
@@ -16,7 +16,9 @@ export class PStudent extends Component {
         getStudentsAllCourse: PropTypes.func.isRequired,
         addStudent: PropTypes.func.isRequired,
         updateStudent: PropTypes.func.isRequired,
-        deleteStudent: PropTypes.func.isRequired
+        deleteStudent: PropTypes.func.isRequired,
+        calNoteFinal: PropTypes.func.isRequired,
+        asignCareer: PropTypes.func.isRequired
     }
 
     componentDidMount(){
@@ -39,4 +41,4 @@ const mapStateToProps = state => ({
     selected: state.students.selected
 });
 
-export default connect(mapStateToProps,{getStudents, getStudentsAllCourse,addStudent, updateStudent, deleteStudent})(PStudent);
+export default connect(mapStateToProps,{getStudents, getStudentsAllCourse,addStudent, updateStudent, deleteStudent, calNoteFinal, asignCareer})(PStudent);

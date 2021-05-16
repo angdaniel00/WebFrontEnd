@@ -11,7 +11,7 @@ export const StudentDetails =({visible, hide, student})=> {
         if(type === 1)
             return student.name
         return[
-            {name:'Carrera', value:student.career},
+            {name:'Carrera', value:student.nameCareer},
             {name:'Boleta', value:student.ticket},
             {name:'Escuela', value:student.school},
             {name:'Acumulado preuniversitario', value:student.acpre},

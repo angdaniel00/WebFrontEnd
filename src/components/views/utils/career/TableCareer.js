@@ -27,7 +27,7 @@ export const TableCareer =({careers, events, admin, type})=> {
 
     const [selectionCourse, setSelectionCourse]=useState(events.courseSelect)
     const [visible, setVisible] = useState(false)
-    const [selection, setSelection] = useState(initialSelection)
+    const [selection, setSelection] = useState({...initialSelection})
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [confirmVisible, setConfirmVisible] = useState(false)
     const [visibleInfo, setVisibleInfo] = useState(false)
@@ -88,6 +88,10 @@ export const TableCareer =({careers, events, admin, type})=> {
         else{
             showToast()
         }
+    }
+
+    const clean = () =>{
+        setSelection({...initialSelection})
     }
 
     const confirm=()=>{
@@ -162,7 +166,7 @@ export const TableCareer =({careers, events, admin, type})=> {
         <Fragment>
                 <Toast ref={toast} onRemove={()=>toast.current.clear()} className='toast'/>
                 {admin?<DialogCreateCareer addCareerD={addCareerD} hide={hide} visible={visible} courses={events.courses}/>:null}
-                {admin?<DialogUpdateCareer updateCareerD={updateCareerD} hiden={hideU} visible={visibleUpdate} career={selection}/>:null}
+                {admin?<DialogUpdateCareer updateCareerD={updateCareerD} hiden={hideU} visible={visibleUpdate} clean={clean} career={selection}/>:null}
                 {admin?<Toolbar className='mt' left={left} right={right}/>:<Toolbar className='mt' left={leftPublic} right={rightPublic}/>}
                 <CareerDetails visible={visibleInfo} hide={()=>setVisibleInfo(false)} career={selection}/>
                 <DataTable header="Carreras" value={careers} selection={selection} onSelectionChange={onSelection} selectionMode='single' dataKey='id' className='p-datatable-gridlines mt'>

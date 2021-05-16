@@ -21,7 +21,7 @@ export const UpdateTicket = ({visible, hiden, ticket, updateTicketD, clean, care
         option8: null,
         option9: null,
         option10: null
-})
+    })
     const [showOption2, setShowOption2] = useState(false)
     const [showOption3, setShowOption3] = useState(true)
     const [showOption4, setShowOption4] = useState(true)
@@ -35,7 +35,8 @@ export const UpdateTicket = ({visible, hiden, ticket, updateTicketD, clean, care
 
     const updateTicket = (event)=>{
         if(validTicket()){
-            updateTicketD(ticket)
+            updateTicketD(ticketU)
+            ticket={...ticketU}
             clean()
         }
         else
@@ -152,7 +153,7 @@ export const UpdateTicket = ({visible, hiden, ticket, updateTicketD, clean, care
     }
 
     const initDialog = () =>{
-        setTicketU(ticket)
+        setTicketU({...ticket})
         setShowOption2(false)
         setShowOption3(!(ticket.option2 && ticket.option2!==''))
         setShowOption4(!(ticket.option3 && ticket.option3!==''))

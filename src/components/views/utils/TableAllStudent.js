@@ -21,7 +21,8 @@ export const initialSelection={
         math: -1,
         spanish: -1,
         history: -1,
-        noteFinal: -1
+        noteFinal: -1,
+        nameCareer: null
 }
 
 export const TableAllStudents =({students, events, admin, type})=> {
@@ -32,6 +33,8 @@ export const TableAllStudents =({students, events, admin, type})=> {
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [confirmVisible, setConfirmVisible] = useState(false)
     const [visibleInfo, setVisibleInfo] = useState(false)
+    const [loadingCal, setLoadingCal] = useState(false)
+    const [loadingAsign, setLoadingAsign] = useState(false)
     const toast = useRef(null)
 
     const showToast = () =>{
@@ -42,12 +45,32 @@ export const TableAllStudents =({students, events, admin, type})=> {
         toast.current.show({severity: 'error', summary:'Borrado', detail:'Alumno eliminado', life:2000})
     }
 
-    const successUpdatee = () =>{
+    const successUpdate = () =>{
         toast.current.show({severity: 'success', summary:'Actualizado', detail:'Información actualizada', life:2000})
+    }
+
+    const successCal = () =>{
+        setLoadingCal(false)
+        toast.current.show({severity: 'success', summary:'Actualizado', detail:'Notas calculadas y guardadas', life:2000})
+    }
+
+    const successAsgin = () =>{
+        setLoadingAsign(false)
+        toast.current.show({severity: 'success', summary:'Actualizado', detail:'Carreras asignadas y guardadas', life:2000})
     }
 
     const error = () => {
         toast.current.show({severity: 'error', summary:'Error', detail:'No hay cursos agregados', life:2000})
+    }
+
+    const showErrorCalc = (message) => {
+        setLoadingCal(false)
+        toast.current.show({severity: 'error', summary:'Error', detail:message, life:2000})
+    }
+
+    const showErrorAsign = (message) => {
+        setLoadingAsign(false)
+        toast.current.show({severity: 'error', summary:'Error', detail:message, life:2000})
     }
 
     const createStudent=(event)=>{
@@ -78,7 +101,7 @@ export const TableAllStudents =({students, events, admin, type})=> {
     const updateStudentD = (student)=>{
         events.updateStudent(student)
         hideU()
-        successUpdatee()
+        successUpdate()
     }
 
     const onSelection = (event) =>{
@@ -139,6 +162,16 @@ export const TableAllStudents =({students, events, admin, type})=> {
         }
     }
 
+    const eventCalc = (event)=>{
+        setLoadingCal(true)
+        events.calNoteFinal(selectionCourse, showErrorCalc, cleanSelection, successCal)
+    }
+
+    const eventAsign = (event)=>{
+        setLoadingAsign(true)
+        events.asignCareer(selectionCourse, showErrorAsign, cleanSelection, successAsgin)
+    }
+
     const left=(
         <Fragment>
             <Button tooltip='Nuevo' icon='pi pi-user-plus' className='p-mr-2' onClick={createStudent} tooltipOptions={{position:'bottom'}}/>
@@ -152,8 +185,8 @@ export const TableAllStudents =({students, events, admin, type})=> {
         <Fragment>
            <Dropdown className='p-mr-2' optionLabel='cyear' optionValue="id" value={selectionCourse} onChange={onRefresh} name='course' options={events.courses} placeholder='Curso'/>
            <Button tooltip='Informaci&oacute;n' icon='pi pi-info-circle' className='p-mr-2' onClick={onInfo} tooltipOptions={{position: 'bottom'}}/>
-           <Button tooltip='Calcular' icon='pi pi-file' className='p-mr-2' tooltipOptions={{position:'bottom'}}/>
-           <Button tooltip='Asignar' icon='pi pi-book' className='p-mr-2' tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Calcular' disabled={loadingCal} onClick={eventCalc} icon={loadingCal?'pi pi-spin pi-spinner':'pi pi-file'} className='p-mr-2' tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Asignar' disabled={loadingAsign} onClick={eventAsign} icon={loadingAsign?'pi pi-spin pi-spinner':'pi pi-book'} className='p-mr-2' tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
 

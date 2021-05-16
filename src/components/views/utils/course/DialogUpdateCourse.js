@@ -10,6 +10,7 @@ export const DialogUpdateCourse = ({updateCourseD, getActual, visible, hiden, ac
     const ref = useRef(null)
 
     const [invalidCourse, setInvalidCourse] = useState(false)
+    const [courseClone, setCourseClone] = useState({})
 
     const showToast = () =>{
         ref.current.show({severity: 'warn', summary:'Error', detail:'Curso ya existente', life:2000})
@@ -17,7 +18,8 @@ export const DialogUpdateCourse = ({updateCourseD, getActual, visible, hiden, ac
 
     const updateCourse = (event)=>{
         if(validCourse()){
-            updateCourseD(actual)
+            updateCourseD(courseClone)
+            actual={...courseClone}
             getActual()
         }
         else{
@@ -26,30 +28,31 @@ export const DialogUpdateCourse = ({updateCourseD, getActual, visible, hiden, ac
     }
 
     const onChange = e => {
-        actual.cyear=(!e.target.valueAsNumber || e.target.valueAsNumber==='NaN')?null:(e.target.valueAsNumber+'-'+(e.target.valueAsNumber+1))
-        setInvalidCourse(!actual.cyear)
+        courseClone.cyear=(!e.target.valueAsNumber || e.target.valueAsNumber==='NaN')?null:(e.target.valueAsNumber+'-'+(e.target.valueAsNumber+1))
+        setInvalidCourse(!courseClone.cyear)
     }
 
     const validCourse = () =>{
-        const toast = courses.some(c=>c.cyear===actual.cyear)
+        const toast = courses.some(c=>c.cyear===courseClone.cyear)
         if(toast)
             showToast()
-        const sp = actual.cyear.split('-')
-        return actual.cyear!=='NaN-NaN' && sp && sp[0] >= 2018 && !toast
+        const sp = courseClone.cyear.split('-')
+        return courseClone.cyear!=='NaN-NaN' && sp && sp[0] >= 2018 && !toast
     }
 
     const hidenDialog = () =>{
         setInvalidCourse(false)
+        setCourseClone({})
         hiden()
     }
 
     return (
         <Fragment>
             <Toast ref={ref} onRemove={()=>ref.current.clear()}/>
-            <Dialog visible={visible} onHide={hidenDialog} header='Actualizar curso'>
+            <Dialog onShow={()=>setCourseClone({...actual})} visible={visible} onHide={hidenDialog} header='Actualizar curso'>
                 <label className='block'>Curso: {actual.cyear}</label>
                 <label className='element-custom'>A&ntilde;o de inicio</label>
-                <InputText type='number' onChange={onChange} defaultValue={actual.cyear?actual.cyear.split('-')[0]:null} className={invalidCourse?'element-custom p-invalid':'element-custom'} min={2018} max={2100} step={1} requiered={true} name='initial' placeholder='A&ntilde;o de inicio'/>
+                <InputText type='number' onChange={onChange} defaultValue={courseClone.cyear?courseClone.cyear.split('-')[0]:null} className={invalidCourse?'element-custom p-invalid':'element-custom'} min={2018} max={2100} step={1} requiered={true} name='initial' placeholder='A&ntilde;o de inicio'/>
                 <Button label='Guardar' icon='pi pi-save' onClick={updateCourse}/>
             </Dialog>
         </Fragment>

@@ -5,19 +5,22 @@ import {InputTextarea} from 'primereact/inputtextarea';
 import {Button} from 'primereact/button';
 import '../css/dialogcreate.css';
 
-export const DialogUpdateCareer = ({visible, hiden, career, updateCareerD}) => {
+export const DialogUpdateCareer = ({visible, hiden, career, clean, updateCareerD}) => {
 
     const[antCant, setAntCant] = useState(null)
     const [invalidName, setInvalidName] = useState(false)
     const [invalidUniversity, setInvalidUniversity] = useState(false)
     const [invalidCant, setInvalidCant] = useState(false)
     const [invalidDescription, setInvalidDescription] = useState(false)
+    const [careerClone, setCareerClone] = useState({})
 
     const updateCareer = (event)=>{
         if(validCareer()){
             if(antCant)
-                career.disp += (career.cant-antCant)
-            updateCareerD(career)
+            careerClone.disp += (careerClone.cant-antCant)
+            updateCareerD(careerClone)
+            career={...careerClone}
+            clean()
         }
     }
 
@@ -40,13 +43,11 @@ export const DialogUpdateCareer = ({visible, hiden, career, updateCareerD}) => {
             default:
                 break
         }
-        if(name==='cant' && !antCant)
-            setAntCant(career.cant)
-        career[name]= value;
+        careerClone[name]= value;
     }
 
     const validCareer = () =>{
-        const{name, cant, description, course, university}=career
+        const{name, cant, description, course, university}=careerClone
         setInvalidName(!(name && name!==''))
         setInvalidUniversity(!(university && university!==''))
         setInvalidCant(!(cant && cant!=='' && cant>0))
@@ -56,6 +57,7 @@ export const DialogUpdateCareer = ({visible, hiden, career, updateCareerD}) => {
     }
 
     const hidenDialog = () =>{
+        setCareerClone({})
         setInvalidName(false)
         setInvalidUniversity(false)
         setInvalidCant(false)
@@ -63,17 +65,22 @@ export const DialogUpdateCareer = ({visible, hiden, career, updateCareerD}) => {
         hiden()
     }
 
+    const initDialog = () =>{
+        setCareerClone({...career})
+        setAntCant(career.cant)
+    }
+
     return (
         <Fragment>
-            <Dialog visible={visible} onHide={hiden} header='Actualizar carrera'>
+            <Dialog onShow={initDialog} visible={visible} onHide={hidenDialog} header='Actualizar carrera'>
                 <label className='element-custom'>Nombre</label>
-                <InputText onChange={onChange} className={invalidName?'element-custom p-invalid':'element-custom'} defaultValue={career.name} name='name' placeholder='Nombre'/>
+                <InputText onChange={onChange} className={invalidName?'element-custom p-invalid':'element-custom'} defaultValue={careerClone.name} name='name' placeholder='Nombre'/>
                 <label className='element-custom'>Universidad</label>
-                <InputText onChange={onChange} className={invalidUniversity?'element-custom p-invalid':'element-custom'} defaultValue={career.university} name='university' placeholder='Universidad'/>
+                <InputText onChange={onChange} className={invalidUniversity?'element-custom p-invalid':'element-custom'} defaultValue={careerClone.university} name='university' placeholder='Universidad'/>
                 <label className='element-custom'>Cantidad</label>
-                <InputText type='number' onChange={onChange} className={invalidCant?'element-custom p-invalid':'element-custom'} defaultValue={career.cant} min={0} name='cant' placeholder='Cantidad'/>
+                <InputText type='number' onChange={onChange} className={invalidCant?'element-custom p-invalid':'element-custom'} defaultValue={careerClone.cant} min={0} name='cant' placeholder='Cantidad'/>
                 <label className='element-custom'>Descripci&oacute;n</label>
-                <InputTextarea onChange={onChange} className={invalidDescription?'element-custom p-invalid':'element-custom'} defaultValue={career.description} name='description' placeholder='Descripci&oacute;n'/>
+                <InputTextarea onChange={onChange} className={invalidDescription?'element-custom p-invalid':'element-custom'} defaultValue={careerClone.description} name='description' placeholder='Descripci&oacute;n'/>
                 <Button label='Guardar' icon='pi pi-save' onClick={updateCareer}/>
             </Dialog>
         </Fragment>

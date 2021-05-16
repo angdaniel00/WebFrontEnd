@@ -12,10 +12,12 @@ export const DialogUpdate = ({visible, hiden, student, updateStudentD, clean}) =
     const [invalidMath, setInvalidMath] = useState(false)
     const [invalidSpanish, setInvalidSpanish] = useState(false)
     const [invalidHistory, setInvalidHistory] = useState(false)
+    const [studentClone, setStudentClone]=useState({})
 
     const updateStudent = (event)=>{
         if(validStudent()){
-            updateStudentD(student)
+            updateStudentD(studentClone)
+            student={...studentClone}
             clean()
         }
     }
@@ -45,11 +47,11 @@ export const DialogUpdate = ({visible, hiden, student, updateStudentD, clean}) =
             default:
                 break
         }
-        student[name]= value
+        studentClone[name]= value
     }
 
     const validStudent = () =>{
-        const{name, school, acpre, math, spanish, history}=student
+        const{name, school, acpre, math, spanish, history}=studentClone
         setInvalidName(!(name && name.length>0))
         setInvalidSchool(!(school &&school.length>0))
         setInvalidAcpre(!(acpre && acpre!=='' && acpre>=0 && acpre<=100))
@@ -62,6 +64,7 @@ export const DialogUpdate = ({visible, hiden, student, updateStudentD, clean}) =
     }
 
     const hideDialog = () =>{
+        setStudentClone({})
         setInvalidName(false)
         setInvalidSchool(false)
         setInvalidAcpre(false)
@@ -73,19 +76,19 @@ export const DialogUpdate = ({visible, hiden, student, updateStudentD, clean}) =
 
     return (
         <Fragment>
-            <Dialog visible={visible} onHide={hideDialog} header='Actualizar estudiante'>
+            <Dialog onShow={()=>setStudentClone({...student})} visible={visible} onHide={hideDialog} header='Actualizar estudiante'>
                 <label className='element-custom'>Nombre</label>
-                <InputText onChange={onChange} className={invalidName?'element-custom p-invalid':'element-custom'} defaultValue={student.name} name='name' placeholder='Nombre'/>
+                <InputText onChange={onChange} className={invalidName?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.name} name='name' placeholder='Nombre'/>
                 <label className='element-custom'>Escuela</label>
-                <InputText onChange={onChange} className={invalidSchool?'element-custom p-invalid':'element-custom'} defaultValue={student.school} name='school' placeholder='Escuela'/>
+                <InputText onChange={onChange} className={invalidSchool?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.school} name='school' placeholder='Escuela'/>
                 <label className='element-custom'>Acumulado pre</label>
-                <InputText type='number' onChange={onChange} className={invalidAcpre?'element-custom p-invalid':'element-custom'} defaultValue={student.acpre} min={0} max={100} name='acpre' placeholder='Acumulado'/>
+                <InputText type='number' onChange={onChange} className={invalidAcpre?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.acpre} min={0} max={100} name='acpre' placeholder='Acumulado'/>
                 <label className='element-custom'>Matem&aacute;tica</label>
-                <InputText type='number' onChange={onChange} className={invalidMath?'element-custom p-invalid':'element-custom'} defaultValue={student.math} min={0} max={100} name='math' placeholder='Matem&aacute;tica'/>
+                <InputText type='number' onChange={onChange} className={invalidMath?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.math} min={0} max={100} name='math' placeholder='Matem&aacute;tica'/>
                 <label className='element-custom'>Espa&ntilde;ol</label>
-                <InputText type='number' onChange={onChange} className={invalidSpanish?'element-custom p-invalid':'element-custom'} defaultValue={student.spanish} min={0} max={100} name='spanish' placeholder='Espa&ntilde;ol'/>
+                <InputText type='number' onChange={onChange} className={invalidSpanish?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.spanish} min={0} max={100} name='spanish' placeholder='Espa&ntilde;ol'/>
                 <label className='element-custom'>Historia</label>
-                <InputText type='number' onChange={onChange} className={invalidHistory?'element-custom p-invalid':'element-custom'} defaultValue={student.history} min={0} max={100} name='history' placeholder='Historia'/>
+                <InputText type='number' onChange={onChange} className={invalidHistory?'element-custom p-invalid':'element-custom'} defaultValue={studentClone.history} min={0} max={100} name='history' placeholder='Historia'/>
                 <Button label='Guardar' icon='pi pi-save' onClick={updateStudent}/>
             </Dialog>
         </Fragment>

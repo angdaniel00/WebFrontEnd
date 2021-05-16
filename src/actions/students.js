@@ -126,10 +126,12 @@ export const deleteStudent = (id) => (dispatch, getState) => {
 export const addStudent = (student) => (dispatch, getState) => {
     axios.post('/private/student', student, tokenConfig(getState))
         .then(res=>{
+            const st = res.data
+            st.nameCareer=null
             dispatch(createMessage({addStudent: 'Student added'}))
             dispatch({
                 type: ADD_STUDENT,
-                payload: res.data
+                payload: st
             })
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
 }
@@ -139,34 +141,72 @@ export const updateStudent = (student) => (dispatch, getState) => {
     student = fixedStudent(student);
     axios.put('/private/student', student, tokenConfig(getState))
         .then(res=>{
+            const st = res.data
+            st.nameCareer = student.nameCareer
             dispatch(createMessage({updateStudent: 'Student updated'}))
             dispatch({
                 type: UPDATE_STUDENT,
-                payload: res.data
+                payload: st
             })
         }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
 }
 
 //Asign Career Student
-export const asignCareer = (id) => (dispatch, getState) => {
-    axios.post('/private/student/asig/'+id, tokenConfig(getState))
+export const asignCareer = (id, showError, clean, success) => (dispatch, getState) => {
+    axios.post('/private/student/asign/'+id, null,tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({asigCareerStudent: 'Asign career student'}))
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            clean()
+            success()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            switch(err.response.status){
+                case 400:
+                    showError('No hay boletas registradas')
+                    break
+                case 403:
+                    showError('No hay alumnos registrados')
+                    break
+                case 404:
+                    showError('Nota de las Pruebas de Ingreso o nota final incompleta o boleta')
+                    break
+                case 501:
+                    showError('No hay carreras registradas')
+                    break
+                default:
+                    showError('Error desconocido')
+                    break
+            }
+        });
 }
 
 //Calcule note final of Student
-export const calNoteFinal = (id) => (dispatch, getState) => {
-    axios.post('/private/student/calc/'+id, tokenConfig(getState))
+export const calNoteFinal = (id, showError, clean, success) => (dispatch, getState) => {
+    axios.post('/private/student/calc/'+id, null,tokenConfig(getState))
         .then(res=>{
             dispatch(createMessage({calNoteFinal: 'Calcule note final Student'}))
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            clean()
+            success()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            switch(err.response.status){
+                case 403:
+                    showError('No hay alumnos registrados')
+                    break
+                case 404:
+                    showError('Notas incompletas')
+                    break
+                default:
+                    showError('Error desconocido')
+                    break
+            }
+        });
 }
