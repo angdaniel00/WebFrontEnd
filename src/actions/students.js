@@ -22,14 +22,20 @@ export const getStudent = (student) => dispatch => {
 }
 
 //GET Students of a Course
-export const getStudentsAllCourse = (id) => dispatch => {
+export const getStudentsAllCourse = (id, showError, clean) => dispatch => {
     axios.get('/public/student/all/'+id)
         .then(res=>{
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //GET ALL Students
@@ -67,36 +73,54 @@ export const searchStudentAdvanced = (student) => dispatch => {
 }
 
 //Escalafon
-export const getEscalafon = (id) => dispatch => {
+export const getEscalafon = (id, showError, clean) => dispatch => {
     axios.get('/public/student/escalafon/'+id)
         .then(res=>{
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //Aprobados
-export const getAprobados = (id) => dispatch => {
+export const getAprobados = (id, showError, clean) => dispatch => {
     axios.get('public/student/aprobados/'+id)
         .then(res=>{
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //Desaprobados
-export const getDesaprobados = (id) => dispatch => {
+export const getDesaprobados = (id, showError, clean) => dispatch => {
     axios.get('public/student/desaprobados/'+id)
         .then(res=>{
             dispatch({
                 type: GET_STUDENTS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //Estudiantes sin carreras

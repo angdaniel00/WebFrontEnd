@@ -35,10 +35,16 @@ export const TableAllStudents =({students, events, admin, type})=> {
     const [visibleInfo, setVisibleInfo] = useState(false)
     const [loadingCal, setLoadingCal] = useState(false)
     const [loadingAsign, setLoadingAsign] = useState(false)
+    const [loadingRefresh, setLoadingRefresh] = useState(false)
     const toast = useRef(null)
 
     const showToast = () =>{
         toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar un estudiante', life:2000})
+    }
+
+    const showErrorMessage = ()=>{
+        setLoadingRefresh(false)
+        toast.current.show({severity: 'error', summary:'Borrado', detail:'Alumno eliminado', life:2000})
     }
 
     const showConfirmDelete = () =>{
@@ -143,21 +149,23 @@ export const TableAllStudents =({students, events, admin, type})=> {
         if(event.target.name==='course')
             setSelectionCourse(event.target.value)
         setSelection(initialSelection)
+        setLoadingRefresh(true)
         const s = (!event.target.name || event.target.name==='refreshButton')?selectionCourse:event.target.value
         switch(type){
             case ALL_STUDENTS:
-                events.getStudentsAllCourse(s)
+                events.getStudentsAllCourse(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             case APR_STUDENTS:
-                events.getAprobados(s)
+                events.getAprobados(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             case DES_STUDENTS:
-                events.getDesaprobados(s)
+                events.getDesaprobados(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             case ESCALAFON:
-                events.getEscalafon(s)
+                events.getEscalafon(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             default:
+                setLoadingRefresh(false)
                 break;
         }
     }
@@ -177,7 +185,7 @@ export const TableAllStudents =({students, events, admin, type})=> {
             <Button tooltip='Nuevo' icon='pi pi-user-plus' className='p-mr-2' onClick={createStudent} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateStudent} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Borrar' icon='pi pi-trash' className='p-button-danger p-mr-2' onClick={onDelete} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refreshButton' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
 
@@ -200,7 +208,7 @@ export const TableAllStudents =({students, events, admin, type})=> {
     const rightPublic=(
         <Fragment>
            <Button tooltip='Informaci&oacute;n' icon='pi pi-info-circle' className='p-mr-2' onClick={onInfo} tooltipOptions={{position: 'bottom'}}/>
-           <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refreshButton' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
          

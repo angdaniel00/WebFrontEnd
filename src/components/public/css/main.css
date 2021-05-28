@@ -1,0 +1,342 @@
+.fc{
+    width: fit-content !important;
+}
+.body {
+    background: url(../img/fondo.png)  95% 100% no-repeat;
+    background-size: 600px 600px, cover;
+}
+
+.header {
+    width: 100%; 
+    padding: 10px 0px 5px 0px;
+    margin-left: 10px;
+}
+
+.h1 {
+    font-family: Calibri;
+    text-align: start;
+    font-size: 45px;
+    color: #2E75C8 !important;
+    text-shadow: -3px 3px 4px #C5B9B9;
+}
+
+aside { 
+    width: 55%;
+    margin: 10px;
+    float: left;
+}
+
+aside section {
+    border-radius: 3px;
+    background-color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+    padding: 5px 5px 5px 5px;
+    font-size: 18px;
+    font-family: Calibri;
+}
+
+footer{
+    display: inline-block;
+    width: 100%; 
+}
+
+.logo{
+    float: right;
+    height: 50px;
+}
+
+/* Laptops de 1025px a 1280px*/
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    .body {
+        background: url(../img/fondo.png)  95% 100% no-repeat;
+        background-size: 500px 500px, cover;
+    
+    }
+
+    header {
+        width: 100%; 
+        padding: 10px 0px 5px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: start;
+        font-size: 45px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside { 
+        width: 53%;
+        margin: 10px;
+        float: left;
+    }
+
+    aside section {
+        border-radius: 3px;
+        background-color: rgba(255,255,255,0.6);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 15px;
+        font-family: Calibri;
+    }
+
+    footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 50px;
+    }
+} 
+
+/* Tablets (vertical) de 768px a 1024px */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .body {
+        background: url(../img/fondo.png)  50% 70% no-repeat;
+        background-size: 700px 700px, cover;
+    
+    }
+
+    header {
+        width: 100%; 
+        padding: 60px 0px 0px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: center;
+        font-size: 60px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside {
+        width: 90%; 
+        margin: 50px;
+    }
+
+    aside section {
+        border-radius: 5px;
+        background-color: rgba(255,255,255,0.7);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 23px;
+        font-family: Calibri;
+    }
+
+    footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 50px;
+    }
+    
+}
+
+/* Tablets (horizontal) de 768px a 1024px */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .body {
+        background: url(../img/fondo.png)  95% 200% no-repeat;
+        background-size: 600px 600px, cover;
+    
+    }
+
+    .header {
+        width: 100%; 
+        padding: 10px 0px 5px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: start;
+        font-size: 40px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside {
+        width: 60%; 
+        float: left;
+        margin: 10px;
+    }
+
+    aside section {
+        border-radius: 5px;
+        background-color: rgba(255,255,255,0.6);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 16px;
+        font-family: Calibri;
+    }
+
+    footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 50px;
+    }
+    
+} 
+
+/* Celulares y Tablets baja resolucion (horizontal) de 481px a 767px */
+@media only screen and (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+    .body {
+        background: url(../img/fondo.png)  95% 50% no-repeat;
+        background-size: 360px 360px, cover;
+    
+    }
+
+    .header {
+        width: 100%; 
+        padding: 10px 0px 5px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: start;
+        font-size: 25px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside {
+        width: 60%; 
+        float: left;
+        margin: 10px;
+    }
+
+    aside section {
+        border-radius: 5px;
+        background-color: rgba(255,255,255,0.6);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 10px;
+        font-family: Calibri;
+    }
+
+    footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 40px;
+    }
+    
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) and (orientation: portrait) {
+    .body {
+        background: url(../img/fondo.png)  95% 50% no-repeat;
+        background-size: 360px 360px, cover;
+    
+    }
+
+    .header {
+        width: 100%; 
+        padding: 10px 0px 5px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: start;
+        font-size: 25px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside {
+        width: 100%; 
+        float: left;
+        margin: 10px;
+    }
+
+    aside section {
+        border-radius: 5px;
+        background-color: rgba(255,255,255,0.6);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 10px;
+        font-family: Calibri;
+    }
+
+    footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 40px;
+    }
+    
+}
+
+/* Celulares (vertical) de 320px a 480px */
+@media only screen and (max-width: 480px) and (orientation: portrait) {
+    .body {
+        background: url(../img/fondo.png)  95% 50% no-repeat;
+        background-size: 360px 360px, cover;
+    
+    }
+
+    .header {
+        width: 100%; 
+        padding: 10px 0px 5px 0px;
+        margin-left: 10px;
+    }
+
+    .h1 {
+        font-family: Calibri;
+        text-align: start;
+        font-size: 25px;
+        color: #2E75C8 !important;
+        text-shadow: -3px 3px 4px #C5B9B9;
+    }
+
+    aside {
+        /* width: 94%;  */
+        float: left;
+        margin: 10px;
+    }
+
+    aside section {
+        border-radius: 5px;
+        background-color: rgba(255,255,255,0.6);
+        margin-bottom: 8px;
+        padding: 5px 5px 5px 5px;
+        font-size: 10px;
+        font-family: Calibri;
+    }
+
+     footer{
+        display: inline-block;
+        width: 100%; 
+    }
+
+    .logo{
+        float: right;
+        height: 30px;
+    }
+}
+
+@media only screen and (max-width: 319px){
+    .logo{
+        display: none;
+    }
+}

@@ -20,10 +20,16 @@ export const AllCourses =({courses, events})=> {
     const [selection, setSelection] = useState(initialSelection)
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [confirmVisible, setConfirmVisible] = useState(false)
+    const [loadingRefresh, setLoadingRefresh] = useState(false)
     const toast = useRef(null)
 
     const showToast = () =>{
         toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar un curso', life:2000})
+    }
+
+    const showErrorMessage = ()=>{
+        setLoadingRefresh(false)
+        toast.current.show({severity: 'error', summary:'Borrado', detail:'Alumno eliminado', life:2000})
     }
 
     const showConfirmDelete = () =>{
@@ -96,7 +102,8 @@ export const AllCourses =({courses, events})=> {
 
     const onRefresh = (event) => {
         setSelection(initialSelection)
-        events.getCourses()
+        setLoadingRefresh(true)
+        events.getCourses(showErrorMessage, ()=>setLoadingRefresh(false))
     }
 
     const left=(
@@ -104,7 +111,7 @@ export const AllCourses =({courses, events})=> {
             <Button tooltip='Nuevo' icon='pi pi-plus' className='p-mr-2' onClick={createCourse} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateCourse} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Borrar' icon='pi pi-trash' className='p-button-danger p-mr-2' onClick={onDelete} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refresh' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refresh' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
          

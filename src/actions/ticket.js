@@ -26,7 +26,7 @@ export const getTickets = () => dispatch => {
 }
 
 //GET Tickets Course
-export const getTicketsCourse = (course) => (dispatch, getState) => {
+export const getTicketsCourse = (course, showError, clean) => (dispatch, getState) => {
     axios.get('/public/ticket/all/'+course)
         .then(res=>{
             const state = getState()
@@ -36,7 +36,13 @@ export const getTicketsCourse = (course) => (dispatch, getState) => {
                 type: GET_TICKETS,
                 payload: res.data.tickets
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 // DELETE Ticket

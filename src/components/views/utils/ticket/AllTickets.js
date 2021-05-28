@@ -36,10 +36,16 @@ export const TableAllTickets =({students, careers, tickets, events, admin})=> {
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [confirmVisible, setConfirmVisible] = useState(false)
     const [visibleInfo, setVisibleInfo] = useState(false)
+    const [loadingRefresh, setLoadingRefresh] = useState(false)
     const toast = useRef(null)
 
     const showToast = () =>{
         toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar una boleta', life:2000})
+    }
+
+    const showErrorMessage = ()=>{
+        setLoadingRefresh(false)
+        toast.current.show({severity: 'error', summary:'Borrado', detail:'Alumno eliminado', life:2000})
     }
 
     const noSelect = () =>{
@@ -132,8 +138,9 @@ export const TableAllTickets =({students, careers, tickets, events, admin})=> {
         if(event.target.name==='course')
             setSelectionCourse(event.target.value)
         setSelection(initialSelection)
+        setLoadingRefresh(true)
         const s = (!event.target.name || event.target.name==='refreshButton')?selectionCourse:event.target.value
-        events.getTicketsCourse(s)
+        events.getTicketsCourse(s, showErrorMessage, ()=>setLoadingRefresh(false))
     }
 
     const left=(
@@ -141,7 +148,7 @@ export const TableAllTickets =({students, careers, tickets, events, admin})=> {
             <Button tooltip='Nuevo' icon='pi pi pi-plus' className='p-mr-2' onClick={createTicket} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateTicket} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Borrar' icon='pi pi-trash' className='p-button-danger p-mr-2' onClick={onDelete} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refreshButton' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
 
@@ -162,7 +169,7 @@ export const TableAllTickets =({students, careers, tickets, events, admin})=> {
     const rightPublic=(
         <Fragment>
            <Button tooltip='Informaci&oacute;n' icon='pi pi-info-circle' className='p-mr-2' onClick={onInfo} tooltipOptions={{position: 'bottom'}}/>
-           <Button tooltip='Actualizar' icon='pi pi-refresh' name='refreshButton' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refreshButton' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
          

@@ -31,10 +31,16 @@ export const TableCareer =({careers, events, admin, type})=> {
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [confirmVisible, setConfirmVisible] = useState(false)
     const [visibleInfo, setVisibleInfo] = useState(false)
+    const [loadingRefresh, setLoadingRefresh] = useState(false)
     const toast = useRef(null)
 
     const showToast = () =>{
         toast.current.show({severity: 'warn', summary:'Error', detail:'Debe seleccionar una carrera', life:2000})
+    }
+
+    const showErrorMessage = ()=>{
+        setLoadingRefresh(false)
+        toast.current.show({severity: 'error', summary:'Borrado', detail:'Alumno eliminado', life:2000})
     }
 
     const showConfirmDelete = () =>{
@@ -119,13 +125,14 @@ export const TableCareer =({careers, events, admin, type})=> {
         if(event.target.name==='course')
             setSelectionCourse(event.target.value)
         setSelection(initialSelection)
+        setLoadingRefresh(true)
         const s = (!event.target.name || event.target.name==='refresh')?selectionCourse:event.target.value
         switch(type){
             case ALL_CAREERS:
-                events.getCareersCourse(s)
+                events.getCareersCourse(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             case DISP_CAREERS:
-                events.getCareerDisp(s)
+                events.getCareerDisp(s, showErrorMessage, ()=>setLoadingRefresh(false))
                 break;
             default:
                 break;
@@ -137,7 +144,7 @@ export const TableCareer =({careers, events, admin, type})=> {
             <Button tooltip='Nuevo' icon='pi pi-plus' className='p-mr-2' onClick={createCareer} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Editar' icon='pi pi-pencil' className='p-button-success p-mr-2' onClick={updateCareer} tooltipOptions={{position:'bottom'}}/>
             <Button tooltip='Borrar' icon='pi pi-trash' className='p-button-danger p-mr-2' onClick={onDelete} tooltipOptions={{position:'bottom'}}/>
-            <Button tooltip='Actualizar' icon='pi pi-refresh' name='refresh' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+            <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refresh' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
 
@@ -158,7 +165,7 @@ export const TableCareer =({careers, events, admin, type})=> {
     const rightPublic=(
         <Fragment>
            <Button tooltip='Informaci&oacute;n' icon='pi pi-info-circle' className='p-mr-2' onClick={onInfo} tooltipOptions={{position: 'bottom'}}/>
-           <Button tooltip='Actualizar' icon='pi pi-refresh' name='refresh' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
+           <Button tooltip='Actualizar' disabled={loadingRefresh} icon={loadingRefresh?'pi pi-spin pi-spinner':'pi pi-refresh'} name='refresh' className='p-mr-2' onClick={onRefresh} tooltipOptions={{position:'bottom'}}/>
         </Fragment>
     )
          

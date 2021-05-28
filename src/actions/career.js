@@ -4,14 +4,20 @@ import { createMessage, returnErrors} from './messages';
 import {tokenConfig} from './auth';
 
 //GET CAREER DISP
-export const getCareerDisp = (id) => dispatch => {
+export const getCareerDisp = (id, showError, clean) => dispatch => {
     axios.get('/public/career/disponibles/'+id)
         .then(res=>{
             dispatch({
                 type: GET_CAREERS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err =>{ 
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //Search Career Adavanced
@@ -49,14 +55,20 @@ export const getCareers = () => dispatch => {
 }
 
 //GET ALL CAREERS
-export const getCareersCourse = (id) => dispatch => {
+export const getCareersCourse = (id, showError, clean) => dispatch => {
     axios.get('/public/career/all/'+id)
         .then(res=>{
             dispatch({
                 type: GET_CAREERS,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 // DELETE Career

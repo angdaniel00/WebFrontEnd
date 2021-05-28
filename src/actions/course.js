@@ -26,14 +26,20 @@ export const getCoursesLike= (id) => dispatch => {
 }
 
 //GET ALL COURSES
-export const getCourses = () => dispatch => {
+export const getCourses = (showError, clean) => dispatch => {
     axios.get('/public/course/all')
         .then(res=>{
             dispatch({
                 type: GET_COURSES,
                 payload: res.data
             })
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+            if(clean)
+                clean()
+        }).catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            if(showError)
+                showError()
+        });
 }
 
 //GET ACTUAL

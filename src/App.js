@@ -41,7 +41,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="h-100">
         <Provider store={store}>
           <AlertProvider template={AlertTemplate} {...AlertOptions}>
             <HashRouter>
